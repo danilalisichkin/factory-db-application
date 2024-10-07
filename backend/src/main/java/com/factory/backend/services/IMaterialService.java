@@ -8,7 +8,7 @@ import java.util.List;
 public interface IMaterialService {
     List<MaterialDTO> getAllMaterials();
 
-    MaterialDTO getMaterialById(Long id);
+    MaterialDTO getMaterialById(Integer id);
 
     MaterialDTO saveMaterial(MaterialAddingDTO materialDTO);
 

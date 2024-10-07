@@ -8,7 +8,7 @@ import java.util.List;
 public interface IProductMaterialService {
     List<ProductMaterialDTO> getAllProductMaterials();
 
-    ProductMaterialDTO getProductMaterialById(Long productId, Long materialId);
+    ProductMaterialDTO getProductMaterialById(Integer productId, Integer materialId);
 
     ProductMaterialDTO saveProductMaterial(ProductMaterialAddingDTO productMaterialDTO);
 

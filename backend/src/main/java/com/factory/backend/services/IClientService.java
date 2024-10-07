@@ -8,7 +8,7 @@ import java.util.List;
 public interface IClientService {
     List<ClientDTO> getAllClients();
 
-    ClientDTO getClientByPhone(Long id);
+    ClientDTO getClientByPhone(Integer id);
 
     ClientDTO saveClient(ClientAddingDTO clientDTO);
 

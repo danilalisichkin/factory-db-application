@@ -8,13 +8,13 @@ import java.util.List;
 public interface ICategoryService {
     List<CategoryDTO> getAllCategories();
 
-    CategoryDTO getCategoryById(Long id);
+    CategoryDTO getCategoryById(Integer id);
 
     CategoryDTO saveBook(CategoryAddingDTO categoryDTO);
 
     CategoryDTO updateBook(CategoryDTO categoryDTO);
 
-    void deleteCategoryById(Long id);
+    void deleteCategoryById(Integer id);
 
     void deleteAllCategories();
 }
