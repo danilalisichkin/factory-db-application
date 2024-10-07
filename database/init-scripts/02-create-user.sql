@@ -1,4 +1,4 @@
-CREATE USER factory_user WITH PASSWORD 'your_password';
+CREATE USER factory_user WITH PASSWORD 'admin';
 
 GRANT ALL PRIVILEGES ON DATABASE factory_db TO factory_user;
 
