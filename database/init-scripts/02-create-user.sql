@@ -1,0 +1,9 @@
+CREATE USER factory_user WITH PASSWORD 'your_password';
+
+GRANT ALL PRIVILEGES ON DATABASE factory_db TO factory_user;
+
+\c factory_db;
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO factory_user;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON TABLES TO factory_user;
