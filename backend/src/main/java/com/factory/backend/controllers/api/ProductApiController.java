@@ -57,12 +57,12 @@ public class ProductApiController {
     }
 
     @PutMapping
-    public ResponseEntity<ProductDTO> updateProducts(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO) {
         logger.info("Updating product with id={}", productDTO.getId());
 
-        ProductDTO updatedProductsDTO = productService.updateProduct(productDTO);
+        ProductDTO updatedProductDTO = productService.updateProduct(productDTO);
 
-        return ResponseEntity.status(HttpStatus.OK).body(updatedProductsDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedProductDTO);
     }
 
     @DeleteMapping("/{id}")
