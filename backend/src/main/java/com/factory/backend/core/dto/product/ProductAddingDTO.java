@@ -13,5 +13,5 @@ import java.math.BigDecimal;
 public class ProductAddingDTO {
     private String name;
     private BigDecimal price;
-    private Category category;
+    private Integer categoryId;
 }
