@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: factory-database-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/factory_db
+    username: factory_user
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_schema: public
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+server:
+  port: 8080
