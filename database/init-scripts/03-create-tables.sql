@@ -22,14 +22,14 @@ ON DELETE CASCADE
 CREATE TABLE public.clients (
     phone_number VARCHAR(20) PRIMARY KEY,
     organization_name VARCHAR(255) NOT NULL,
-    email VARCHAR(255),
-    legal_address VARCHAR(255)
+    email VARCHAR(255) NOT NULL UNIQUE,
+    legal_address VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE public.materials (
     sku SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
-    supplier_name VARCHAR(100)
+    supplier_name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE public.product_orders (
