@@ -3,6 +3,8 @@ package com.factory.backend.controllers.api;
 import com.factory.backend.core.dto.product.material.ProductMaterialAddingDTO;
 import com.factory.backend.core.dto.product.material.ProductMaterialDTO;
 import com.factory.backend.services.IProductMaterialService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -23,6 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/product-materials")
+@Tag(name="ProductMaterialController", description="Provides CRUD-operations with records in \"product_materials\" table")
 public class ProductMaterialApiController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -34,6 +37,7 @@ public class ProductMaterialApiController {
     }
 
     @GetMapping("/all")
+    @Operation(summary = "Get all", description = "Allows to get all existing records")
     public ResponseEntity<List<ProductMaterialDTO>> getAllProductMaterials() {
         logger.info("Sending all product materials");
 
@@ -43,6 +47,7 @@ public class ProductMaterialApiController {
     }
 
     @GetMapping("/{product_id}/{material_id}")
+    @Operation(summary = "Get", description = "Allows to get existing record by its id")
     public ResponseEntity<ProductMaterialDTO> getProductMaterial(
             @NotNull @PathVariable Integer product_id,
             @NotNull @PathVariable Integer material_id) {
@@ -54,6 +59,7 @@ public class ProductMaterialApiController {
     }
 
     @PostMapping
+    @Operation(summary = "Add/save", description = "Allows to add/save new record")
     public ResponseEntity<ProductMaterialDTO> saveProductMaterial(@Valid @RequestBody ProductMaterialAddingDTO productMaterialAddingDTO) {
         logger.info("Saving product material with product_id={} and material_id={}", productMaterialAddingDTO.getProductSku(), productMaterialAddingDTO.getMaterialSku());
 
@@ -63,6 +69,7 @@ public class ProductMaterialApiController {
     }
 
     @PutMapping
+    @Operation(summary = "Update", description = "Allows to update existing record. Note, that update of id fields is not allowed")
     public ResponseEntity<ProductMaterialDTO> updateProductMaterial(@Valid @RequestBody ProductMaterialDTO productMaterialDTO) {
         logger.info("Updating product material with product_id={} and material_id={}", productMaterialDTO.getProductSku(), productMaterialDTO.getMaterialSku());
 
@@ -72,6 +79,7 @@ public class ProductMaterialApiController {
     }
 
     @DeleteMapping("/{product_id}/{material_id}")
+    @Operation(summary = "Delete", description = "Allows to delete existing record by its id")
     public ResponseEntity<Void> deleteProductMaterial(
             @NotNull @PathVariable Integer product_id,
             @NotNull @PathVariable Integer material_id) {
@@ -83,6 +91,7 @@ public class ProductMaterialApiController {
     }
 
     @DeleteMapping("/all")
+    @Operation(summary = "Delete all", description = "Allows to delete all existing records")
     public ResponseEntity<Void> deleteAllProductMaterials() {
         logger.info("Deleting all product materials");
 

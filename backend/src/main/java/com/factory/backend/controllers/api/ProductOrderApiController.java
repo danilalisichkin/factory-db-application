@@ -3,6 +3,8 @@ package com.factory.backend.controllers.api;
 import com.factory.backend.core.dto.product.order.ProductOrderAddingDTO;
 import com.factory.backend.core.dto.product.order.ProductOrderDTO;
 import com.factory.backend.services.IProductOrderService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -24,6 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/product-orders")
+@Tag(name="ProductOrderController", description="Provides CRUD-operations with records in \"product_orders\" table")
 public class ProductOrderApiController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -35,6 +38,7 @@ public class ProductOrderApiController {
     }
 
     @GetMapping("/all")
+    @Operation(summary = "Get all", description = "Allows to get all existing records")
     public ResponseEntity<List<ProductOrderDTO>> getAllProductOrders() {
         logger.info("Sending all product orders");
 
@@ -44,6 +48,7 @@ public class ProductOrderApiController {
     }
 
     @GetMapping("/{client_phone}/{product_id}")
+    @Operation(summary = "Get", description = "Allows to get existing record by its id")
     public ResponseEntity<ProductOrderDTO> getProductOrder(
             @NotNull
             @Pattern(regexp = "^\\+375(15|29|33|44)\\d{7}$",
@@ -58,6 +63,7 @@ public class ProductOrderApiController {
     }
 
     @PostMapping
+    @Operation(summary = "Add/save", description = "Allows to add/save new record")
     public ResponseEntity<ProductOrderDTO> saveProductOrder(@Valid @RequestBody ProductOrderAddingDTO productOrderAddingDTO) {
         logger.info("Saving product order with client_phone={} and product_id={}", productOrderAddingDTO.getClientPhoneNumber(), productOrderAddingDTO.getProductSku());
 
@@ -67,6 +73,7 @@ public class ProductOrderApiController {
     }
 
     @PutMapping
+    @Operation(summary = "Update", description = "Allows to update existing record. Note, that update of id fields is not allowed")
     public ResponseEntity<ProductOrderDTO> updateProductOrder(@Valid @RequestBody ProductOrderDTO productOrderDTO) {
         logger.info("Updating product order with client_phone={} and product_id={}", productOrderDTO.getClientPhoneNumber(), productOrderDTO.getProductSku());
 
@@ -76,6 +83,7 @@ public class ProductOrderApiController {
     }
 
     @DeleteMapping("/{client_phone}/{product_id}")
+    @Operation(summary = "Delete", description = "Allows to delete existing record by its id")
     public ResponseEntity<Void> deleteProductOrder(
             @NotNull
             @Pattern(regexp = "^\\+375(15|29|33|44)\\d{7}$",
@@ -90,6 +98,7 @@ public class ProductOrderApiController {
     }
 
     @DeleteMapping("/all")
+    @Operation(summary = "Delete all", description = "Allows to delete all existing records")
     public ResponseEntity<Void> deleteAllProductOrders() {
         logger.info("Deleting all product orders");
 

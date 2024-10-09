@@ -3,6 +3,8 @@ package com.factory.backend.controllers.api;
 import com.factory.backend.core.dto.client.ClientAddingDTO;
 import com.factory.backend.core.dto.client.ClientDTO;
 import com.factory.backend.services.IClientService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -24,6 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/clients")
+@Tag(name="ClientController", description="Provides CRUD-operations with records in \"clients\" table")
 public class ClientApiController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -35,6 +38,7 @@ public class ClientApiController {
     }
 
     @GetMapping("/all")
+    @Operation(summary = "Get all", description = "Allows to get all existing records")
     public ResponseEntity<List<ClientDTO>> getAllClients() {
         logger.info("Sending all clients");
 
@@ -44,6 +48,7 @@ public class ClientApiController {
     }
 
     @GetMapping("/{phone}")
+    @Operation(summary = "Get", description = "Allows to get existing record by its id")
     public ResponseEntity<ClientDTO> getClient(
             @NotNull
             @Pattern(regexp = "^\\+375(15|29|33|44)\\d{7}$",
@@ -57,6 +62,7 @@ public class ClientApiController {
     }
 
     @PostMapping
+    @Operation(summary = "Add/save", description = "Allows to add/save new record")
     public ResponseEntity<ClientDTO> saveClient(@Valid @RequestBody ClientAddingDTO clientAddingDTO) {
         logger.info("Saving client with phone={}", clientAddingDTO.getPhoneNumber());
 
@@ -66,6 +72,7 @@ public class ClientApiController {
     }
 
     @PutMapping
+    @Operation(summary = "Update", description = "Allows to update existing record. Note, that update of id fields is not allowed")
     public ResponseEntity<ClientDTO> updateCategory(@Valid @RequestBody ClientDTO clientDTO) {
         logger.info("Updating client with phone={}", clientDTO.getPhoneNumber());
 
@@ -75,6 +82,7 @@ public class ClientApiController {
     }
 
     @DeleteMapping("/{phone}")
+    @Operation(summary = "Delete", description = "Allows to delete existing record by its id")
     public ResponseEntity<Void> deleteClient(
             @NotNull
             @Pattern(regexp = "^\\+375(15|29|33|44)\\d{7}$",
@@ -88,6 +96,7 @@ public class ClientApiController {
     }
 
     @DeleteMapping("/all")
+    @Operation(summary = "Delete all", description = "Allows to delete all existing records")
     public ResponseEntity<Void> deleteAllClients() {
         logger.info("Deleting all clients");
 

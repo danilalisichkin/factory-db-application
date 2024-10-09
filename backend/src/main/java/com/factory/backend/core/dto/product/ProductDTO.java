@@ -1,6 +1,7 @@
 package com.factory.backend.core.dto.product;
 
 import com.factory.backend.entities.Category;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 @Data
 @Builder
 @EqualsAndHashCode
+@Schema(description = "Entry to get/update/delete a record in \"products\" table")
 public class ProductDTO {
     @NotNull
     private Integer id;

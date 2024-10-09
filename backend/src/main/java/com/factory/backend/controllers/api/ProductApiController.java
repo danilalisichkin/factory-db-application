@@ -3,6 +3,8 @@ package com.factory.backend.controllers.api;
 import com.factory.backend.core.dto.product.ProductAddingDTO;
 import com.factory.backend.core.dto.product.ProductDTO;
 import com.factory.backend.services.IProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -23,6 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
+@Tag(name="ProductController", description="Provides CRUD-operations with records in \"products\" table")
 public class ProductApiController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -34,6 +37,7 @@ public class ProductApiController {
     }
 
     @GetMapping("/all")
+    @Operation(summary = "Get all", description = "Allows to get all existing records")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
         logger.info("Sending all products");
 
@@ -43,6 +47,7 @@ public class ProductApiController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get", description = "Allows to get existing record by its id")
     public ResponseEntity<ProductDTO> getProduct(@NotNull @PathVariable Integer id) {
         logger.info("Sending product with id={}", id);
 
@@ -52,6 +57,7 @@ public class ProductApiController {
     }
 
     @PostMapping
+    @Operation(summary = "Add/save", description = "Allows to add/save new record")
     public ResponseEntity<ProductDTO> saveMaterial(@Valid @RequestBody ProductAddingDTO productAddingDTO) {
         logger.info("Saving product with name={} and category_id={}", productAddingDTO.getName(), productAddingDTO.getCategoryId());
 
@@ -61,6 +67,7 @@ public class ProductApiController {
     }
 
     @PutMapping
+    @Operation(summary = "Update", description = "Allows to update existing record. Note, that update of id fields is not allowed")
     public ResponseEntity<ProductDTO> updateProduct(@Valid @RequestBody ProductDTO productDTO) {
         logger.info("Updating product with id={}", productDTO.getId());
 
@@ -70,6 +77,7 @@ public class ProductApiController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete", description = "Allows to delete existing record by its id")
     public ResponseEntity<Void> deleteProduct(@NotNull @PathVariable Integer id) {
         logger.info("Deleting product with id={}", id);
 
@@ -79,6 +87,7 @@ public class ProductApiController {
     }
 
     @DeleteMapping("/all")
+    @Operation(summary = "Delete all", description = "Allows to delete all existing records")
     public ResponseEntity<Void> deleteAllProducts() {
         logger.info("Deleting all products");
 

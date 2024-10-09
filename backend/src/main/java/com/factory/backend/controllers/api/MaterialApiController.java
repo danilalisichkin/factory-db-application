@@ -3,6 +3,8 @@ package com.factory.backend.controllers.api;
 import com.factory.backend.core.dto.material.MaterialAddingDTO;
 import com.factory.backend.core.dto.material.MaterialDTO;
 import com.factory.backend.services.IMaterialService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -23,6 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/materials")
+@Tag(name="MaterialController", description="Provides CRUD-operations with records in \"materials\" table")
 public class MaterialApiController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -34,6 +37,7 @@ public class MaterialApiController {
     }
 
     @GetMapping("/all")
+    @Operation(summary = "Get all", description = "Allows to get all existing records")
     public ResponseEntity<List<MaterialDTO>> getAllMaterials() {
         logger.info("Sending all materials");
 
@@ -43,6 +47,7 @@ public class MaterialApiController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get", description = "Allows to get existing record by its id")
     public ResponseEntity<MaterialDTO> getMaterial(@NotNull @PathVariable Integer id) {
         logger.info("Sending material with id={}", id);
 
@@ -52,6 +57,7 @@ public class MaterialApiController {
     }
 
     @PostMapping
+    @Operation(summary = "Add/save", description = "Allows to add/save new record")
     public ResponseEntity<MaterialDTO> saveMaterial(@Valid @RequestBody MaterialAddingDTO materialAddingDTO) {
         logger.info("Saving material with name={} and supplier={}", materialAddingDTO.getName(), materialAddingDTO.getSupplierName());
 
@@ -61,6 +67,7 @@ public class MaterialApiController {
     }
 
     @PutMapping
+    @Operation(summary = "Update", description = "Allows to update existing record. Note, that update of id fields is not allowed")
     public ResponseEntity<MaterialDTO> updateMaterial(@Valid @RequestBody MaterialDTO materialDTO) {
         logger.info("Updating material with id={}", materialDTO.getId());
 
@@ -70,6 +77,7 @@ public class MaterialApiController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete", description = "Allows to delete existing record by its id")
     public ResponseEntity<Void> deleteMaterial(@NotNull @PathVariable Integer id) {
         logger.info("Deleting material with id={}", id);
 
@@ -79,6 +87,7 @@ public class MaterialApiController {
     }
 
     @DeleteMapping("/all")
+    @Operation(summary = "Delete all", description = "Allows to delete all existing records")
     public ResponseEntity<Void> deleteAllCategories() {
         logger.info("Deleting all materials");
 

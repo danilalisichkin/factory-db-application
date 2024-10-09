@@ -3,6 +3,8 @@ package com.factory.backend.controllers.api;
 import com.factory.backend.core.dto.category.CategoryAddingDTO;
 import com.factory.backend.core.dto.category.CategoryDTO;
 import com.factory.backend.services.ICategoryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -23,6 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/categories")
+@Tag(name="CategoryController", description="Provides CRUD-operations with records in \"categories\" table")
 public class CategoryApiController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -34,6 +37,7 @@ public class CategoryApiController {
     }
 
     @GetMapping("/all")
+    @Operation(summary = "Get all", description = "Allows to get all existing records")
     public ResponseEntity<List<CategoryDTO>> getAllCategories() {
         logger.info("Sending all categories");
 
@@ -43,6 +47,7 @@ public class CategoryApiController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get", description = "Allows to get existing record by its id")
     public ResponseEntity<CategoryDTO> getCategory(@NotNull @PathVariable Integer id) {
         logger.info("Sending category with id={}", id);
 
@@ -52,6 +57,7 @@ public class CategoryApiController {
     }
 
     @PostMapping
+    @Operation(summary = "Add/save", description = "Allows to add/save new record")
     public ResponseEntity<CategoryDTO> saveCategory(@Valid @RequestBody CategoryAddingDTO categoryAddingDTO) {
         logger.info("Saving category with name={} and parentId={}", categoryAddingDTO.getName(), categoryAddingDTO.getParentId());
 
@@ -61,6 +67,7 @@ public class CategoryApiController {
     }
 
     @PutMapping
+    @Operation(summary = "Update", description = "Allows to update existing record. Note, that update of id fields is not allowed")
     public ResponseEntity<CategoryDTO> updateCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
         logger.info("Updating category with id={}", categoryDTO.getId());
 
@@ -70,6 +77,7 @@ public class CategoryApiController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete", description = "Allows to delete existing record by its id")
     public ResponseEntity<Void> deleteCategory(@NotNull @PathVariable Integer id) {
         logger.info("Deleting category with id={}", id);
 
@@ -79,6 +87,7 @@ public class CategoryApiController {
     }
 
     @DeleteMapping("/all")
+    @Operation(summary = "Delete all", description = "Allows to delete all existing records")
     public ResponseEntity<Void> deleteAllCategories() {
         logger.info("Deleting all categories");
 

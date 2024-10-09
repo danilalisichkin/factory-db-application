@@ -1,5 +1,6 @@
 package com.factory.backend.core.dto.product.material;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -8,7 +9,8 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @Builder
-@EqualsAndHashCode
+@EqualsAndHashCode@Schema(description = "Entry to get/update/delete a record in \"product_materials\" table")
+
 public class ProductMaterialDTO {
     @NotNull
     private Integer productSku;
