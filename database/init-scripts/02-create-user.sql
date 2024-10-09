@@ -1,5 +1,7 @@
 CREATE USER factory_user WITH PASSWORD 'admin';
 
+ALTER DATABASE factory_db OWNER TO factory_user;
+
 GRANT ALL PRIVILEGES ON DATABASE factory_db TO factory_user;
 
 \c factory_db;
