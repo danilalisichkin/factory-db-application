@@ -8,13 +8,13 @@ import java.util.List;
 public interface IProductOrderService {
     List<ProductOrderDTO> getAllProductOrders();
 
-    ProductOrderDTO getProductOrderById(Integer productId, String clientPhone);
+    ProductOrderDTO getProductOrderById(String clientPhone, Integer productId);
 
     ProductOrderDTO saveProductOrder(ProductOrderAddingDTO ProductOrderDTO);
 
     ProductOrderDTO updateProductOrder(ProductOrderDTO ProductOrderDTO);
 
-    void deleteProductOrderById(Integer productId, String clientPhone);
+    void deleteProductOrderById(String clientPhone, Integer productId);
 
     void deleteAllProductOrders();
 }
