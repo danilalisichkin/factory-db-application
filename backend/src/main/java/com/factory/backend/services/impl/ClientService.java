@@ -47,14 +47,14 @@ public class ClientService implements IClientService {
 
     @Override
     public ClientDTO saveClient(ClientAddingDTO clientDTO) {
-        Client client = clientRepository.save(clientMapper.addingDtoToEntity(clientDTO));
-
-        return clientMapper.entityToDto(client);
+        return clientMapper.entityToDto(
+                clientRepository.save(clientMapper.addingDtoToEntity(clientDTO))
+        );
     }
 
     @Override
     public ClientDTO updateClient(ClientDTO clientDTO) {
-        if (clientRepository.findById(clientDTO.getPhoneNumber()).isEmpty()) {
+        if (!clientRepository.existsById(clientDTO.getPhoneNumber())) {
             throw new ResourceNotFoundException("Client with phone=%s not found", clientDTO.getPhoneNumber());
         }
 
@@ -65,7 +65,7 @@ public class ClientService implements IClientService {
 
     @Override
     public void deleteClientByPhone(String phone) {
-        if (clientRepository.findById(phone).isEmpty()) {
+        if (!clientRepository.existsById(phone)) {
             throw new ResourceNotFoundException("Client with phone=%s not found", phone);
         }
         clientRepository.deleteById(phone);

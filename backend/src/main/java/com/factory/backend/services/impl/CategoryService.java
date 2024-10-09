@@ -44,14 +44,14 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public CategoryDTO saveBook(CategoryAddingDTO categoryDTO) {
-        Category category = categoryRepository.save(categoryMapper.addingDtoToEntity(categoryDTO));
-
-        return categoryMapper.entityToDto(category);
+        return categoryMapper.entityToDto(
+                categoryRepository.save(categoryMapper.addingDtoToEntity(categoryDTO))
+        );
     }
 
     @Override
     public CategoryDTO updateBook(CategoryDTO categoryDTO) {
-        if (categoryRepository.findById(categoryDTO.getId()).isEmpty()) {
+        if (!categoryRepository.existsById(categoryDTO.getId())) {
             throw new ResourceNotFoundException("Category with id=%s not found", categoryDTO.getId());
         }
 
@@ -62,7 +62,7 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public void deleteCategoryById(Integer id) {
-        if (categoryRepository.findById(id).isEmpty()) {
+        if (!categoryRepository.existsById(id)) {
             throw new ResourceNotFoundException("Category with id=%s not found", id);
         }
         categoryRepository.deleteById(id);

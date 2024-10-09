@@ -45,17 +45,18 @@ public class ProductMaterialService implements IProductMaterialService {
 
     @Override
     public ProductMaterialDTO saveProductMaterial(ProductMaterialAddingDTO productMaterialDTO) {
-        ProductMaterial productMaterial = productMaterialRepository.save(productMaterialMapper.addingDtoToEntity(productMaterialDTO));
-
-        return productMaterialMapper.entityToDto(productMaterial);
+        return productMaterialMapper.entityToDto(
+                productMaterialRepository.save(productMaterialMapper.addingDtoToEntity(productMaterialDTO))
+        );
     }
 
     @Override
     public ProductMaterialDTO updateProductMaterial(ProductMaterialDTO productMaterialDTO) {
-        if (productMaterialRepository.findById(new ProductMaterialId(
+        if (!productMaterialRepository.existsById(new ProductMaterialId(
                 productMaterialDTO.getProductSku(),
                 productMaterialDTO.getMaterialSku()
-        )).isEmpty()) {
+                )
+        )) {
             throw new ResourceNotFoundException("Product material with product_id=%s and material_id=%s not found", productMaterialDTO.getProductSku(), productMaterialDTO.getMaterialSku());
         }
 
@@ -66,7 +67,7 @@ public class ProductMaterialService implements IProductMaterialService {
 
     @Override
     public void deleteProductMaterialById(Integer productId, Integer materialId) {
-        if (productMaterialRepository.findById(new ProductMaterialId(productId, materialId)).isEmpty()) {
+        if (!productMaterialRepository.existsById(new ProductMaterialId(productId, materialId))) {
             throw new ResourceNotFoundException("Product material with product_id=%s and material_id=%s not found", productId, materialId);
         }
         productMaterialRepository.deleteById((new ProductMaterialId(productId, materialId)));

@@ -44,14 +44,14 @@ public class MaterialService implements IMaterialService {
 
     @Override
     public MaterialDTO saveMaterial(MaterialAddingDTO materialDTO) {
-        Material material = materialRepository.save(materialMapper.addingDtoToEntity(materialDTO));
-
-        return materialMapper.entityToDto(material);
+        return materialMapper.entityToDto(
+                materialRepository.save(materialMapper.addingDtoToEntity(materialDTO))
+        );
     }
 
     @Override
     public MaterialDTO updateMaterial(MaterialDTO materialDTO) {
-        if (materialRepository.findById(materialDTO.getId()).isEmpty()) {
+        if (!materialRepository.existsById(materialDTO.getId())) {
             throw new ResourceNotFoundException("Material with id=%s not found", materialDTO.getId());
         }
 
@@ -62,7 +62,7 @@ public class MaterialService implements IMaterialService {
 
     @Override
     public void deleteMaterialById(Integer id) {
-        if (materialRepository.findById(id).isEmpty()) {
+        if (!materialRepository.existsById(id)) {
             throw new ResourceNotFoundException("Material with id=%s not found", id);
         }
         materialRepository.deleteById(id);

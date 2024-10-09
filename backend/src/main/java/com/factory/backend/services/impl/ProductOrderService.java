@@ -45,17 +45,18 @@ public class ProductOrderService implements IProductOrderService {
 
     @Override
     public ProductOrderDTO saveProductOrder(ProductOrderAddingDTO ProductOrderDTO) {
-        ProductOrder productMaterial = productOrderRepository.save(productOrderMapper.addingDtoToEntity(ProductOrderDTO));
-
-        return productOrderMapper.entityToDto(productMaterial);
+        return productOrderMapper.entityToDto(
+                productOrderRepository.save(productOrderMapper.addingDtoToEntity(ProductOrderDTO))
+        );
     }
 
     @Override
     public ProductOrderDTO updateProductOrder(ProductOrderDTO ProductOrderDTO) {
-        if (productOrderRepository.findById(new ProductOrderId(
+        if (!productOrderRepository.existsById(new ProductOrderId(
                 ProductOrderDTO.getClientPhoneNumber(),
                 ProductOrderDTO.getProductSku()
-        )).isEmpty()) {
+                )
+        )) {
             throw new ResourceNotFoundException("Product order with client_phone=%s and product_id=%s not found", ProductOrderDTO.getClientPhoneNumber(), ProductOrderDTO.getProductSku());
         }
 
@@ -66,7 +67,7 @@ public class ProductOrderService implements IProductOrderService {
 
     @Override
     public void deleteProductOrderById(String clientPhone, Integer productId) {
-        if (productOrderRepository.findById(new ProductOrderId(clientPhone, productId)).isEmpty()) {
+        if (!productOrderRepository.existsById(new ProductOrderId(clientPhone, productId))) {
             throw new ResourceNotFoundException("Product order with client_phone=%s and product_id=%s not found", clientPhone, productId);
         }
         productOrderRepository.deleteById((new ProductOrderId(clientPhone, productId)));

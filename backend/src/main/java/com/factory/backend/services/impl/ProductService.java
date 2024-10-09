@@ -44,14 +44,14 @@ public class ProductService implements IProductService {
 
     @Override
     public ProductDTO saveProduct(ProductAddingDTO productDTO) {
-        Product product = productRepository.save(productMapper.addingDtoToEntity(productDTO));
-
-        return productMapper.entityToDto(product);
+        return productMapper.entityToDto(
+                productRepository.save(productMapper.addingDtoToEntity(productDTO))
+        );
     }
 
     @Override
     public ProductDTO updateProduct(ProductDTO productDTO) {
-        if (productRepository.findById(productDTO.getId()).isEmpty()) {
+        if (!productRepository.existsById(productDTO.getId())) {
             throw new ResourceNotFoundException("Product with id=%s not found", productDTO.getId());
         }
 
@@ -62,7 +62,7 @@ public class ProductService implements IProductService {
 
     @Override
     public void deleteProductById(Integer id) {
-        if (productRepository.findById(id).isEmpty()) {
+        if (!productRepository.existsById(id)) {
             throw new ResourceNotFoundException("Product with id=%s not found", id);
         }
         productRepository.deleteById(id);
