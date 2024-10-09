@@ -3,6 +3,8 @@ package com.factory.backend.controllers.api;
 import com.factory.backend.core.dto.category.CategoryAddingDTO;
 import com.factory.backend.core.dto.category.CategoryDTO;
 import com.factory.backend.services.ICategoryService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,7 @@ public class CategoryApiController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDTO> getCategory(@PathVariable Integer id) {
+    public ResponseEntity<CategoryDTO> getCategory(@NotNull @PathVariable Integer id) {
         logger.info("Sending category with id={}", id);
 
         CategoryDTO categoryDTO = categoryService.getCategoryById(id);
@@ -48,7 +50,7 @@ public class CategoryApiController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryDTO> saveCategory(@RequestBody CategoryAddingDTO categoryAddingDTO) {
+    public ResponseEntity<CategoryDTO> saveCategory(@Valid @RequestBody CategoryAddingDTO categoryAddingDTO) {
         logger.info("Saving category with name={} and parentId={}", categoryAddingDTO.getName(), categoryAddingDTO.getParentId());
 
         CategoryDTO savedCategoryDTO = categoryService.saveBook(categoryAddingDTO);
@@ -57,7 +59,7 @@ public class CategoryApiController {
     }
 
     @PutMapping
-    public ResponseEntity<CategoryDTO> updateCategory(@RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<CategoryDTO> updateCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
         logger.info("Updating category with id={}", categoryDTO.getId());
 
         CategoryDTO updatedCategoryDTO = categoryService.updateBook(categoryDTO);
@@ -66,7 +68,7 @@ public class CategoryApiController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteCategory(@NotNull @PathVariable Integer id) {
         logger.info("Deleting category with id={}", id);
 
         categoryService.deleteCategoryById(id);

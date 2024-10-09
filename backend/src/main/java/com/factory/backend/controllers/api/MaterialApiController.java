@@ -3,6 +3,8 @@ package com.factory.backend.controllers.api;
 import com.factory.backend.core.dto.material.MaterialAddingDTO;
 import com.factory.backend.core.dto.material.MaterialDTO;
 import com.factory.backend.services.IMaterialService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,7 @@ public class MaterialApiController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MaterialDTO> getMaterial(@PathVariable Integer id) {
+    public ResponseEntity<MaterialDTO> getMaterial(@NotNull @PathVariable Integer id) {
         logger.info("Sending material with id={}", id);
 
         MaterialDTO materialDTO = materialService.getMaterialById(id);
@@ -48,7 +50,7 @@ public class MaterialApiController {
     }
 
     @PostMapping
-    public ResponseEntity<MaterialDTO> saveMaterial(@RequestBody MaterialAddingDTO materialAddingDTO) {
+    public ResponseEntity<MaterialDTO> saveMaterial(@Valid @RequestBody MaterialAddingDTO materialAddingDTO) {
         logger.info("Saving material with name={} and supplier={}", materialAddingDTO.getName(), materialAddingDTO.getSupplierName());
 
         MaterialDTO savedMaterialDTO = materialService.saveMaterial(materialAddingDTO);
@@ -57,7 +59,7 @@ public class MaterialApiController {
     }
 
     @PutMapping
-    public ResponseEntity<MaterialDTO> updateMaterial(@RequestBody MaterialDTO materialDTO) {
+    public ResponseEntity<MaterialDTO> updateMaterial(@Valid @RequestBody MaterialDTO materialDTO) {
         logger.info("Updating material with id={}", materialDTO.getId());
 
         MaterialDTO updatedCategoryDTO = materialService.updateMaterial(materialDTO);
@@ -66,7 +68,7 @@ public class MaterialApiController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMaterial(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteMaterial(@NotNull @PathVariable Integer id) {
         logger.info("Deleting material with id={}", id);
 
         materialService.deleteMaterialById(id);

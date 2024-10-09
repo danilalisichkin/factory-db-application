@@ -3,6 +3,9 @@ package com.factory.backend.controllers.api;
 import com.factory.backend.core.dto.client.ClientAddingDTO;
 import com.factory.backend.core.dto.client.ClientDTO;
 import com.factory.backend.services.IClientService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +42,11 @@ public class ClientApiController {
     }
 
     @GetMapping("/{phone}")
-    public ResponseEntity<ClientDTO> getClient(@PathVariable String phone) {
+    public ResponseEntity<ClientDTO> getClient(
+            @NotNull
+            @Pattern(regexp = "^\\+375(15|29|33|44)\\d{7}$",
+                    message = "illegal format of phone number, correct example: +375291234567")
+            @PathVariable String phone) {
         logger.info("Sending client with phone={}", phone);
 
         ClientDTO clientDTO = clientService.getClientByPhone(phone);
@@ -48,7 +55,7 @@ public class ClientApiController {
     }
 
     @PostMapping
-    public ResponseEntity<ClientDTO> saveClient(@RequestBody ClientAddingDTO clientAddingDTO) {
+    public ResponseEntity<ClientDTO> saveClient(@Valid @RequestBody ClientAddingDTO clientAddingDTO) {
         logger.info("Saving client with phone={}", clientAddingDTO.getPhoneNumber());
 
         ClientDTO savedClientDTO = clientService.saveClient(clientAddingDTO);
@@ -57,7 +64,7 @@ public class ClientApiController {
     }
 
     @PutMapping
-    public ResponseEntity<ClientDTO> updateCategory(@RequestBody ClientDTO clientDTO) {
+    public ResponseEntity<ClientDTO> updateCategory(@Valid @RequestBody ClientDTO clientDTO) {
         logger.info("Updating client with phone={}", clientDTO.getPhoneNumber());
 
         ClientDTO updatedCategoryDTO = clientService.updateClient(clientDTO);
@@ -66,7 +73,11 @@ public class ClientApiController {
     }
 
     @DeleteMapping("/{phone}")
-    public ResponseEntity<Void> deleteClient(@PathVariable String phone) {
+    public ResponseEntity<Void> deleteClient(
+            @NotNull
+            @Pattern(regexp = "^\\+375(15|29|33|44)\\d{7}$",
+                    message = "illegal format of phone number, correct example: +375291234567")
+            @PathVariable String phone) {
         logger.info("Deleting client with phone={}", phone);
 
         clientService.deleteClientByPhone(phone);

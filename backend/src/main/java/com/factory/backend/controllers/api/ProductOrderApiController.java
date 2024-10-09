@@ -3,6 +3,9 @@ package com.factory.backend.controllers.api;
 import com.factory.backend.core.dto.product.order.ProductOrderAddingDTO;
 import com.factory.backend.core.dto.product.order.ProductOrderDTO;
 import com.factory.backend.services.IProductOrderService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +42,12 @@ public class ProductOrderApiController {
     }
 
     @GetMapping("/{client_phone}/{product_id}")
-    public ResponseEntity<ProductOrderDTO> getProductOrder(@PathVariable String client_phone, @PathVariable Integer product_id) {
+    public ResponseEntity<ProductOrderDTO> getProductOrder(
+            @NotNull
+            @Pattern(regexp = "^\\+375(15|29|33|44)\\d{7}$",
+                    message = "illegal format of phone number, correct example: +375291234567")
+            @PathVariable String client_phone,
+            @NotNull @PathVariable Integer product_id) {
         logger.info("Sending product order with client_phone={} and product_id={}", client_phone, product_id);
 
         ProductOrderDTO productOrderDTO = productOrderService.getProductOrderById(client_phone, product_id);
@@ -48,7 +56,7 @@ public class ProductOrderApiController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductOrderDTO> saveProductOrder(@RequestBody ProductOrderAddingDTO productOrderAddingDTO) {
+    public ResponseEntity<ProductOrderDTO> saveProductOrder(@Valid @RequestBody ProductOrderAddingDTO productOrderAddingDTO) {
         logger.info("Saving product order with client_phone={} and product_id={}", productOrderAddingDTO.getClientPhoneNumber(), productOrderAddingDTO.getProductSku());
 
         ProductOrderDTO savedProductMaterialDTO = productOrderService.saveProductOrder(productOrderAddingDTO);
@@ -57,7 +65,7 @@ public class ProductOrderApiController {
     }
 
     @PutMapping
-    public ResponseEntity<ProductOrderDTO> updateProductOrder(@RequestBody ProductOrderDTO productOrderDTO) {
+    public ResponseEntity<ProductOrderDTO> updateProductOrder(@Valid @RequestBody ProductOrderDTO productOrderDTO) {
         logger.info("Updating product order with client_phone={} and product_id={}", productOrderDTO.getClientPhoneNumber(), productOrderDTO.getProductSku());
 
         ProductOrderDTO updatedProductOrderDTO = productOrderService.updateProductOrder(productOrderDTO);
@@ -66,7 +74,12 @@ public class ProductOrderApiController {
     }
 
     @DeleteMapping("/{client_phone}/{product_id}")
-    public ResponseEntity<Void> deleteProductOrder(@PathVariable String client_phone, @PathVariable Integer product_id) {
+    public ResponseEntity<Void> deleteProductOrder(
+            @NotNull
+            @Pattern(regexp = "^\\+375(15|29|33|44)\\d{7}$",
+                    message = "illegal format of phone number, correct example: +375291234567")
+            @PathVariable String client_phone,
+            @NotNull @PathVariable Integer product_id) {
         logger.info("Deleting product order with client_phone={} amd product_id={}", client_phone, product_id);
 
         productOrderService.deleteProductOrderById(client_phone, product_id);

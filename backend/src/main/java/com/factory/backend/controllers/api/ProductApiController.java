@@ -3,6 +3,8 @@ package com.factory.backend.controllers.api;
 import com.factory.backend.core.dto.product.ProductAddingDTO;
 import com.factory.backend.core.dto.product.ProductDTO;
 import com.factory.backend.services.IProductService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,7 @@ public class ProductApiController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> getProduct(@PathVariable Integer id) {
+    public ResponseEntity<ProductDTO> getProduct(@NotNull @PathVariable Integer id) {
         logger.info("Sending product with id={}", id);
 
         ProductDTO productDTO = productService.getProductById(id);
@@ -48,7 +50,7 @@ public class ProductApiController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> saveMaterial(@RequestBody ProductAddingDTO productAddingDTO) {
+    public ResponseEntity<ProductDTO> saveMaterial(@Valid @RequestBody ProductAddingDTO productAddingDTO) {
         logger.info("Saving product with name={} and category_id={}", productAddingDTO.getName(), productAddingDTO.getCategoryId());
 
         ProductDTO savedProductDTO = productService.saveProduct(productAddingDTO);
@@ -57,7 +59,7 @@ public class ProductApiController {
     }
 
     @PutMapping
-    public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductDTO> updateProduct(@Valid @RequestBody ProductDTO productDTO) {
         logger.info("Updating product with id={}", productDTO.getId());
 
         ProductDTO updatedProductDTO = productService.updateProduct(productDTO);
@@ -66,7 +68,7 @@ public class ProductApiController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteProduct(@NotNull @PathVariable Integer id) {
         logger.info("Deleting product with id={}", id);
 
         productService.deleteProductById(id);

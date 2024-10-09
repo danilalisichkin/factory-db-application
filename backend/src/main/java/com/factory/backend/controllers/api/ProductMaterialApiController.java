@@ -3,6 +3,8 @@ package com.factory.backend.controllers.api;
 import com.factory.backend.core.dto.product.material.ProductMaterialAddingDTO;
 import com.factory.backend.core.dto.product.material.ProductMaterialDTO;
 import com.factory.backend.services.IProductMaterialService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,9 @@ public class ProductMaterialApiController {
     }
 
     @GetMapping("/{product_id}/{material_id}")
-    public ResponseEntity<ProductMaterialDTO> getProductMaterial(@PathVariable Integer product_id, @PathVariable Integer material_id) {
+    public ResponseEntity<ProductMaterialDTO> getProductMaterial(
+            @NotNull @PathVariable Integer product_id,
+            @NotNull @PathVariable Integer material_id) {
         logger.info("Sending product material with product_id={} and material_id={}", product_id, material_id);
 
         ProductMaterialDTO productMaterialDTO = productMaterialService.getProductMaterialById(product_id, material_id);
@@ -48,7 +52,7 @@ public class ProductMaterialApiController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductMaterialDTO> saveProductMaterial(@RequestBody ProductMaterialAddingDTO productMaterialAddingDTO) {
+    public ResponseEntity<ProductMaterialDTO> saveProductMaterial(@Valid @RequestBody ProductMaterialAddingDTO productMaterialAddingDTO) {
         logger.info("Saving product material with product_id={} and material_id={}", productMaterialAddingDTO.getProductSku(), productMaterialAddingDTO.getMaterialSku());
 
         ProductMaterialDTO savedProductMaterialDTO = productMaterialService.saveProductMaterial(productMaterialAddingDTO);
@@ -57,7 +61,7 @@ public class ProductMaterialApiController {
     }
 
     @PutMapping
-    public ResponseEntity<ProductMaterialDTO> updateProductMaterial(@RequestBody ProductMaterialDTO productMaterialDTO) {
+    public ResponseEntity<ProductMaterialDTO> updateProductMaterial(@Valid @RequestBody ProductMaterialDTO productMaterialDTO) {
         logger.info("Updating product material with product_id={} and material_id={}", productMaterialDTO.getProductSku(), productMaterialDTO.getMaterialSku());
 
         ProductMaterialDTO updatedProductMaterialDTO = productMaterialService.updateProductMaterial(productMaterialDTO);
@@ -66,7 +70,9 @@ public class ProductMaterialApiController {
     }
 
     @DeleteMapping("/{product_id}/{material_id}")
-    public ResponseEntity<Void> deleteProductMaterial(@PathVariable Integer product_id, @PathVariable Integer material_id) {
+    public ResponseEntity<Void> deleteProductMaterial(
+            @NotNull @PathVariable Integer product_id,
+            @NotNull @PathVariable Integer material_id) {
         logger.info("Deleting product material with product_id={} amd material_id={}", product_id, material_id);
 
         productMaterialService.deleteProductMaterialById(product_id, material_id);
