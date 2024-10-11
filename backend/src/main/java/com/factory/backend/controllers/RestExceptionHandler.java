@@ -1,5 +1,6 @@
 package com.factory.backend.controllers;
 
+import com.factory.backend.exceptions.BadRequestException;
 import com.factory.backend.exceptions.DataUniquenessConflictException;
 import com.factory.backend.exceptions.ExceptionMessage;
 import com.factory.backend.exceptions.ResourceNotFoundException;
@@ -30,7 +31,7 @@ public class RestExceptionHandler {
                 .body(new ExceptionMessage(e.getMessage(), "resource not found"));
     }
 
-    @ExceptionHandler({MissingServletRequestParameterException.class})
+    @ExceptionHandler({MissingServletRequestParameterException.class, BadRequestException.class})
     public ResponseEntity<Object> handleBadRequestException(Throwable e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
