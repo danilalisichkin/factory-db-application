@@ -10,9 +10,9 @@ public interface ICategoryService {
 
     CategoryDTO getCategoryById(Integer id);
 
-    CategoryDTO saveBook(CategoryAddingDTO categoryDTO);
+    CategoryDTO saveCategory(CategoryAddingDTO categoryDTO);
 
-    CategoryDTO updateBook(CategoryDTO categoryDTO);
+    CategoryDTO updateCategory(CategoryDTO categoryDTO);
 
     void deleteCategoryById(Integer id);
 
