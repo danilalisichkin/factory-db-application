@@ -51,8 +51,8 @@ public class ClientApiController {
     @Operation(summary = "Get", description = "Allows to get existing record by its id")
     public ResponseEntity<ClientDTO> getClient(
             @NotNull
-            @Pattern(regexp = "^\\+375(15|29|33|44)\\d{7}$",
-                    message = "illegal format of phone number, correct example: +375291234567")
+            @Pattern(regexp = "^\\+375 (15|29|33|44) \\d{3}-\\d{2}-\\d{2}$",
+                    message = "illegal format of phone number, correct example: +375 29 123-45-67")
             @PathVariable String phone) {
         logger.info("Sending client with phone={}", phone);
 
@@ -85,8 +85,8 @@ public class ClientApiController {
     @Operation(summary = "Delete", description = "Allows to delete existing record by its id")
     public ResponseEntity<Void> deleteClient(
             @NotNull
-            @Pattern(regexp = "^\\+375(15|29|33|44)\\d{7}$",
-                    message = "illegal format of phone number, correct example: +375291234567")
+            @Pattern(regexp = "^\\+375 (15|29|33|44) \\d{3}-\\d{2}-\\d{2}$",
+                    message = "illegal format of phone number, correct example: +375 29 123-45-67")
             @PathVariable String phone) {
         logger.info("Deleting client with phone={}", phone);
 
