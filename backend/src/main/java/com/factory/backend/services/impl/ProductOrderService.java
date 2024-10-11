@@ -5,9 +5,13 @@ import com.factory.backend.core.dto.product.order.ProductOrderDTO;
 import com.factory.backend.core.mappers.product.order.ProductOrderMapper;
 import com.factory.backend.entities.ProductOrder;
 import com.factory.backend.entities.ProductOrderId;
+import com.factory.backend.exceptions.BadRequestException;
 import com.factory.backend.exceptions.ResourceNotFoundException;
+import com.factory.backend.repository.ClientRepository;
 import com.factory.backend.repository.ProductOrderRepository;
+import com.factory.backend.repository.ProductRepository;
 import com.factory.backend.services.IProductOrderService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +23,17 @@ public class ProductOrderService implements IProductOrderService {
 
     private final ProductOrderRepository productOrderRepository;
 
+    private final ClientRepository clientRepository;
+
+    private final ProductRepository productRepository;
+
     private final ProductOrderMapper productOrderMapper;
 
     @Autowired
-    public ProductOrderService(ProductOrderRepository productOrderRepository, ProductOrderMapper productOrderMapper) {
+    public ProductOrderService(ProductOrderRepository productOrderRepository, ClientRepository clientRepository, ProductRepository productRepository, ProductOrderMapper productOrderMapper) {
         this.productOrderRepository = productOrderRepository;
+        this.clientRepository = clientRepository;
+        this.productRepository = productRepository;
         this.productOrderMapper = productOrderMapper;
     }
 
@@ -38,37 +48,35 @@ public class ProductOrderService implements IProductOrderService {
     public ProductOrderDTO getProductOrderById(String clientPhone, Integer productId) {
         return productOrderMapper.entityToDto(
                 productOrderRepository.findById(new ProductOrderId(clientPhone, productId)).orElseThrow(
-                        () -> new ResourceNotFoundException("Product order with client_phone=%s and product_id=%s not found", clientPhone, productId)
+                        () -> new ResourceNotFoundException("Product order with client_phone=%s and product_sku=%s not found", clientPhone, productId)
                 )
         );
     }
 
     @Override
-    public ProductOrderDTO saveProductOrder(ProductOrderAddingDTO ProductOrderDTO) {
-        return productOrderMapper.entityToDto(
-                productOrderRepository.save(productOrderMapper.addingDtoToEntity(ProductOrderDTO))
-        );
+    @Transactional
+    public ProductOrderDTO saveProductOrder(ProductOrderAddingDTO productOrderDTO) {
+        return productOrderMapper.entityToDto(productOrderRepository.save(populateProductOrder(productOrderDTO)));
     }
 
     @Override
-    public ProductOrderDTO updateProductOrder(ProductOrderDTO ProductOrderDTO) {
+    @Transactional
+    public ProductOrderDTO updateProductOrder(ProductOrderDTO productOrderDTO) {
         if (!productOrderRepository.existsById(new ProductOrderId(
-                ProductOrderDTO.getClientPhoneNumber(),
-                ProductOrderDTO.getProductSku()
+                        productOrderDTO.getClientPhoneNumber(),
+                        productOrderDTO.getProductSku()
                 )
         )) {
-            throw new ResourceNotFoundException("Product order with client_phone=%s and product_id=%s not found", ProductOrderDTO.getClientPhoneNumber(), ProductOrderDTO.getProductSku());
+            throw new ResourceNotFoundException("Product order with client_phone=%s and product_sku=%s not found", productOrderDTO.getClientPhoneNumber(), productOrderDTO.getProductSku());
         }
 
-        return productOrderMapper.entityToDto(
-                productOrderRepository.save(productOrderMapper.dtoToEntity(ProductOrderDTO))
-        );
+        return productOrderMapper.entityToDto(productOrderRepository.save(populateProductOrder(productOrderDTO)));
     }
 
     @Override
     public void deleteProductOrderById(String clientPhone, Integer productId) {
         if (!productOrderRepository.existsById(new ProductOrderId(clientPhone, productId))) {
-            throw new ResourceNotFoundException("Product order with client_phone=%s and product_id=%s not found", clientPhone, productId);
+            throw new ResourceNotFoundException("Product order with client_phone=%s and product_sku=%s not found", clientPhone, productId);
         }
         productOrderRepository.deleteById((new ProductOrderId(clientPhone, productId)));
     }
@@ -80,5 +88,25 @@ public class ProductOrderService implements IProductOrderService {
         } else {
             productOrderRepository.deleteAll();
         }
+    }
+
+    private ProductOrder populateProductOrder(ProductOrderDTO productOrderDTO) {
+        if (productOrderDTO.getProductSku() == null)
+            throw new BadRequestException("Product sku is required");
+        if (productOrderDTO.getClientPhoneNumber() == null || productOrderDTO.getClientPhoneNumber().isBlank())
+            throw new BadRequestException("Product sku is required");
+
+        ProductOrder productOrder = productOrderMapper.dtoToEntity(productOrderDTO);
+
+        productOrder.setClientPhoneNumber(
+                clientRepository.findById(productOrderDTO.getClientPhoneNumber())
+                        .orElseThrow(() -> new ResourceNotFoundException("Client with phone=%s not found", productOrderDTO.getClientPhoneNumber()))
+        );
+        productOrder.setProductSku(
+                productRepository.findById(productOrderDTO.getProductSku())
+                        .orElseThrow(() -> new ResourceNotFoundException("Product with sku=%s not found", productOrderDTO.getProductSku()))
+        );
+
+        return productOrder;
     }
 }

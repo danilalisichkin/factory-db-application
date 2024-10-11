@@ -43,21 +43,33 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public CategoryDTO saveBook(CategoryAddingDTO categoryDTO) {
-        return categoryMapper.entityToDto(
-                categoryRepository.save(categoryMapper.addingDtoToEntity(categoryDTO))
+    public CategoryDTO saveCategory(CategoryAddingDTO categoryDTO) {
+        Category category = categoryMapper.addingDtoToEntity(categoryDTO);
+        category.setParent(
+                categoryDTO.getParentId() != null
+                        ? categoryRepository.findById(categoryDTO.getParentId()).orElseThrow(
+                                () -> new ResourceNotFoundException("Parent category with id=%s not found", categoryDTO.getParentId()))
+                        : null
         );
+
+        return categoryMapper.entityToDto(categoryRepository.save(category));
     }
 
     @Override
-    public CategoryDTO updateBook(CategoryDTO categoryDTO) {
+    public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
         if (!categoryRepository.existsById(categoryDTO.getId())) {
             throw new ResourceNotFoundException("Category with id=%s not found", categoryDTO.getId());
         }
 
-        return categoryMapper.entityToDto(
-                categoryRepository.save(categoryMapper.dtoToEntity(categoryDTO))
+        Category category = categoryMapper.dtoToEntity(categoryDTO);
+        category.setParent(
+                categoryDTO.getParentId() != null
+                        ? categoryRepository.findById(categoryDTO.getParentId()).orElseThrow(
+                        () -> new ResourceNotFoundException("Parent category with id=%s not found", categoryDTO.getParentId()))
+                        : null
         );
+
+        return categoryMapper.entityToDto(categoryRepository.save(category));
     }
 
     @Override

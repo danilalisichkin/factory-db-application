@@ -5,8 +5,10 @@ import com.factory.backend.core.dto.product.ProductDTO;
 import com.factory.backend.core.mappers.product.ProductMapper;
 import com.factory.backend.entities.Product;
 import com.factory.backend.exceptions.ResourceNotFoundException;
+import com.factory.backend.repository.CategoryRepository;
 import com.factory.backend.repository.ProductRepository;
 import com.factory.backend.services.IProductService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +20,14 @@ public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;
 
+    private final CategoryRepository categoryRepository;
+
     private final ProductMapper productMapper;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository, ProductMapper productMapper) {
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
         this.productMapper = productMapper;
     }
 
@@ -43,21 +48,19 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @Transactional
     public ProductDTO saveProduct(ProductAddingDTO productDTO) {
-        return productMapper.entityToDto(
-                productRepository.save(productMapper.addingDtoToEntity(productDTO))
-        );
+        return productMapper.entityToDto(productRepository.save(populateProduct(productDTO)));
     }
 
     @Override
+    @Transactional
     public ProductDTO updateProduct(ProductDTO productDTO) {
         if (!productRepository.existsById(productDTO.getId())) {
             throw new ResourceNotFoundException("Product with id=%s not found", productDTO.getId());
         }
 
-        return productMapper.entityToDto(
-                productRepository.save(productMapper.dtoToEntity(productDTO))
-        );
+        return productMapper.entityToDto(productRepository.save(populateProduct(productDTO)));
     }
 
     @Override
@@ -75,5 +78,29 @@ public class ProductService implements IProductService {
         } else {
             productRepository.deleteAll();
         }
+    }
+
+    private Product populateProduct(ProductDTO productDTO) {
+        Product product = productMapper.dtoToEntity(productDTO);
+        product.setCategory(productDTO.getCategoryId() != null
+                ? categoryRepository.findById(productDTO.getCategoryId())
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Category with id=%s not found", productDTO.getCategoryId())
+                    )
+                : null);
+
+        return product;
+    }
+
+    private Product populateProduct(ProductAddingDTO productDTO) {
+        Product product = productMapper.addingDtoToEntity(productDTO);
+        product.setCategory(productDTO.getCategoryId() != null
+                ? categoryRepository.findById(productDTO.getCategoryId())
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Category with id=%s not found", productDTO.getCategoryId())
+                    )
+                : null);
+
+        return product;
     }
 }
