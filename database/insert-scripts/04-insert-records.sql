@@ -1,3 +1,5 @@
+\c factory_db;
+
 INSERT INTO public.categories (name, parent_id) VALUES
     ('Мебель', NULL),            --1
     ('Мебель для спальни', 1),   --2
@@ -7,7 +9,7 @@ INSERT INTO public.categories (name, parent_id) VALUES
     ('Столы журнальные', 5),     --6
     ('Шкафы сервантные', 5),     --7
     ('Мебель для кухни', 1),     --8
-    ('Стулья барные',8 ),        --9
+    ('Стулья барные',8),        --9
     ('Столы обеденные', 8);      --10
 
 INSERT INTO public.products (name, category_id, price) VALUES
@@ -35,7 +37,6 @@ INSERT INTO public.product_materials (product_sku, material_sku) VALUES
     (1, 7),
     (2, 1),
     (2, 4),
-    (2, 8),
     (2, 8),
     (3, 4),
     (3, 5),
