@@ -61,7 +61,7 @@ public class CategoryApiController {
     public ResponseEntity<CategoryDTO> saveCategory(@Valid @RequestBody CategoryAddingDTO categoryAddingDTO) {
         logger.info("Saving category with name={} and parentId={}", categoryAddingDTO.getName(), categoryAddingDTO.getParentId());
 
-        CategoryDTO savedCategoryDTO = categoryService.saveBook(categoryAddingDTO);
+        CategoryDTO savedCategoryDTO = categoryService.saveCategory(categoryAddingDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCategoryDTO);
     }
@@ -71,7 +71,7 @@ public class CategoryApiController {
     public ResponseEntity<CategoryDTO> updateCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
         logger.info("Updating category with id={}", categoryDTO.getId());
 
-        CategoryDTO updatedCategoryDTO = categoryService.updateBook(categoryDTO);
+        CategoryDTO updatedCategoryDTO = categoryService.updateCategory(categoryDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(updatedCategoryDTO);
     }
