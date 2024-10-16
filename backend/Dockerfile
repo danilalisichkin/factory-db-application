@@ -6,7 +6,7 @@ RUN mvn clean package -DskipTests=true
 
 FROM amazoncorretto:21-alpine AS runtime
 WORKDIR /app
-ARG JAR_FILE=/app/target/bakend-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=/app/target/backend-0.0.1-SNAPSHOT.jar
 COPY --from=build $JAR_FILE /app/backend.jar
 ENTRYPOINT ["java", "-jar", "backend.jar"]
 EXPOSE 8080
