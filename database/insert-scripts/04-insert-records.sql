@@ -57,4 +57,4 @@ INSERT INTO public.product_orders (client_phone_number, product_sku, quantity) V
     ('375291111111', 4, 4),
     ('375331223445', 5, 10),
     ('375331223445', 3, 3),
-    ('375331223445', 5, 10);
+    ('375441114444', 5, 10);
