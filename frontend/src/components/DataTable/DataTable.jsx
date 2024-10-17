@@ -57,7 +57,6 @@ function RecordCreatingForm({ fieldsForCreate, onRecordAdded }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     onRecordAdded(formData);
-    setFormData({});
   };
 
   return (
