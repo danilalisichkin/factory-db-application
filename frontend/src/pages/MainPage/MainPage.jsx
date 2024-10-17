@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./index.module.css";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, rgbToHex, Select } from "@mui/material";
 import DataTable from "../../components/DataTable/DataTable";
 
 const tables = [
@@ -125,17 +125,7 @@ function MainPage() {
   }
 
   return (
-    <div
-      style={{
-        padding: "100px",
-        width: "100%",
-        maxWidth: "60%",
-        margin: "0 auto",
-        display: "flex",
-        flexDirection: "column",
-        alignContent: "center",
-      }}
-    >
+    <div className={styles.pageContainer}>
       <FormControl>
         <InputLabel id="demo-simple-select-label">Table</InputLabel>
         <Select
