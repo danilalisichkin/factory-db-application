@@ -42,7 +42,7 @@ public class ProductService implements IProductService {
     public ProductDTO getProductById(Integer id) {
         return productMapper.entityToDto(
                 productRepository.findById(id).orElseThrow(
-                        () -> new ResourceNotFoundException("Product with id=%s not found", id)
+                        () -> new ResourceNotFoundException("product with id=%s not found", id)
                 )
         );
     }
@@ -57,7 +57,7 @@ public class ProductService implements IProductService {
     @Transactional
     public ProductDTO updateProduct(ProductDTO productDTO) {
         if (!productRepository.existsById(productDTO.getId())) {
-            throw new ResourceNotFoundException("Product with id=%s not found", productDTO.getId());
+            throw new ResourceNotFoundException("product with id=%s not found", productDTO.getId());
         }
 
         return productMapper.entityToDto(productRepository.save(populateProduct(productDTO)));
@@ -66,7 +66,7 @@ public class ProductService implements IProductService {
     @Override
     public void deleteProductById(Integer id) {
         if (!productRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Product with id=%s not found", id);
+            throw new ResourceNotFoundException("product with id=%s not found", id);
         }
         productRepository.deleteById(id);
     }
@@ -74,7 +74,7 @@ public class ProductService implements IProductService {
     @Override
     public void deleteAllProducts() {
         if (productRepository.count() == 0) {
-            throw new ResourceNotFoundException("No products found");
+            throw new ResourceNotFoundException("no products found");
         } else {
             productRepository.deleteAll();
         }
@@ -85,7 +85,7 @@ public class ProductService implements IProductService {
         product.setCategory(productDTO.getCategoryId() != null
                 ? categoryRepository.findById(productDTO.getCategoryId())
                     .orElseThrow(() -> new ResourceNotFoundException(
-                            "Category with id=%s not found", productDTO.getCategoryId())
+                            "category with id=%s not found", productDTO.getCategoryId())
                     )
                 : null);
 
@@ -97,7 +97,7 @@ public class ProductService implements IProductService {
         product.setCategory(productDTO.getCategoryId() != null
                 ? categoryRepository.findById(productDTO.getCategoryId())
                     .orElseThrow(() -> new ResourceNotFoundException(
-                            "Category with id=%s not found", productDTO.getCategoryId())
+                            "category with id=%s not found", productDTO.getCategoryId())
                     )
                 : null);
 

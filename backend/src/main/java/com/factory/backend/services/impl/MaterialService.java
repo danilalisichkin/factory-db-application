@@ -36,7 +36,7 @@ public class MaterialService implements IMaterialService {
     public MaterialDTO getMaterialById(Integer id) {
         return materialMapper.entityToDto(
                 materialRepository.findById(id).orElseThrow(
-                        () -> new ResourceNotFoundException("Material with sku=%s not found", id)
+                        () -> new ResourceNotFoundException("material with sku=%s not found", id)
                 )
         );
     }
@@ -51,7 +51,7 @@ public class MaterialService implements IMaterialService {
     @Override
     public MaterialDTO updateMaterial(MaterialDTO materialDTO) {
         if (!materialRepository.existsById(materialDTO.getId())) {
-            throw new ResourceNotFoundException("Material with sku=%s not found", materialDTO.getId());
+            throw new ResourceNotFoundException("material with sku=%s not found", materialDTO.getId());
         }
 
         return materialMapper.entityToDto(
@@ -62,7 +62,7 @@ public class MaterialService implements IMaterialService {
     @Override
     public void deleteMaterialById(Integer id) {
         if (!materialRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Material with sku=%s not found", id);
+            throw new ResourceNotFoundException("material with sku=%s not found", id);
         }
         materialRepository.deleteById(id);
     }
@@ -70,7 +70,7 @@ public class MaterialService implements IMaterialService {
     @Override
     public void deleteAllMaterials() {
         if (materialRepository.count() == 0) {
-            throw new ResourceNotFoundException("No materials found");
+            throw new ResourceNotFoundException("no materials found");
         } else {
             materialRepository.deleteAll();
         }
