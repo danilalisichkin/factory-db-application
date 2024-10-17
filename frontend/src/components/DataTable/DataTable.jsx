@@ -60,28 +60,29 @@ function RecordCreatingForm({ fieldsForCreate, apiUrl, onRecordAdded }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Grid2 container spacing={2} sx={{
-        marginTop: "5px",
-        marginBottom: "5px"
-      }}>
+      <Grid2
+        container
+        spacing={2}
+        sx={{
+          marginTop: "10px",
+          marginBottom: "10px",
+          flexWrap: "nowrap",
+        }}
+      >
         {fieldsForCreate.map((field) => (
           <Grid2 item xs={12} sm={field.required ? 6 : 12} key={field.name}>
             <TextField
               label={field.name.charAt(0).toUpperCase() + field.name.slice(1)}
               name={field.name}
               required={field.required}
-              fullWidth
+              fullWidth={true}
               value={formData[field.name] || ""}
               onChange={handleChange}
               variant="outlined"
             />
           </Grid2>
         ))}
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-        >
+        <Button type="submit" variant="contained" color="primary">
           Add
         </Button>
       </Grid2>
@@ -408,7 +409,7 @@ function DataTable(props) {
         return false;
       }
     };
-  
+
     const handleError = (error) => {
       console.error("Error while adding:", error);
       if (error.response) {
@@ -421,9 +422,9 @@ function DataTable(props) {
         );
       }
     };
-  
+
     const success = await postRecord(data);
-  
+
     if (success) {
       const response = await axios.get(`${table.tableApi}/all`);
       const newRows = response.data;
