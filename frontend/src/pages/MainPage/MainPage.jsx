@@ -5,7 +5,7 @@ import DataTable from "../../components/DataTable/DataTable";
 
 const tables = [
   {
-    tableName: "Изделия",
+    tableName: "Products",
     tableApi: "http://localhost:8080/api/v1/products",
     tableIdField: "id",
     fieldsForCreate: [
@@ -24,7 +24,7 @@ const tables = [
     ],
   },
   {
-    tableName: "Категории",
+    tableName: "Categories",
     tableApi: "http://localhost:8080/api/v1/categories",
     tableIdField: "id",
     fieldsForCreate: [
@@ -39,7 +39,7 @@ const tables = [
     ],
   },
   {
-    tableName: "Материалы",
+    tableName: "Materials",
     tableApi: "http://localhost:8080/api/v1/materials",
     tableIdField: "id",
     fieldsForCreate: [
@@ -54,7 +54,7 @@ const tables = [
     ],
   },
   {
-    tableName: "Клиенты",
+    tableName: "Clients",
     tableApi: "http://localhost:8080/api/v1/clients",
     tableIdField: "phoneNumber",
     fieldsForCreate: [
@@ -77,7 +77,7 @@ const tables = [
     ],
   },
   {
-    tableName: "Материалы изделий",
+    tableName: "Product materials",
     tableApi: "http://localhost:8080/api/v1/product-materials",
     tableIdField: ["productSku", "materialSku"],
     fieldsForCreate: [
@@ -92,7 +92,7 @@ const tables = [
     ],
   },
   {
-    tableName: "Заказы изделий",
+    tableName: "Product orders",
     tableApi: "http://localhost:8080/api/v1/product-orders",
     tableIdField: ["clientPhoneNumber", "productSku"],
     fieldsForCreate: [
@@ -137,7 +137,7 @@ function MainPage() {
       }}
     >
       <FormControl>
-        <InputLabel id="demo-simple-select-label">Таблица</InputLabel>
+        <InputLabel id="demo-simple-select-label">Table</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
