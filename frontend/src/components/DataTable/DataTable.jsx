@@ -396,19 +396,17 @@ function DataTable(props) {
   };
 
   const handleRecordAdded = async (data) => {
-    console.log("Data claimed from form:", data);
-
     const postRecord = async (data) => {
       try {
-        const response = (await axios.post(`${apiUrl}`, data));
+        const response = await axios.post(`${apiUrl}`, data);
         console.log("Server response:", response.data);
+        return true;
       } catch (error) {
         handleError(error);
         return false;
       }
-      return true;
     };
-
+  
     const handleError = (error) => {
       console.error("Error while adding:", error);
       if (error.response) {
@@ -421,13 +419,12 @@ function DataTable(props) {
         );
       }
     };
-
-    let success = true;
-
-    success = postRecord(data);
-
+  
+    const success = await postRecord(data);
+  
     if (success) {
-      const newRows = await axios.get(`${table.tableApi}/all`).data;
+      const response = await axios.get(`${table.tableApi}/all`);
+      const newRows = response.data;
       setRows(newRows);
       setSelected([]);
     }
