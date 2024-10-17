@@ -1,5 +1,4 @@
 import * as React from "react";
-import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
 import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
@@ -22,9 +22,11 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import axios from "axios";
 import styled from "@emotion/styled";
+import PropTypes from "prop-types";
 
 import ModalWindow from "../ModalWindow/ModalWindow";
-import { Button, Grid, Grid2, TextField } from "@mui/material";
+import ModalWindowWithForm from "../ModalWindow/ModalWindowWithForm";
+import { Button, Grid2, TextField } from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
@@ -41,7 +43,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function RecordCreatingForm({ fieldsForCreate, apiUrl, onRecordAdded }) {
+function RecordCreatingForm({ fieldsForCreate, onRecordAdded }) {
   const [formData, setFormData] = React.useState({});
 
   const handleChange = (event) => {
@@ -89,6 +91,16 @@ function RecordCreatingForm({ fieldsForCreate, apiUrl, onRecordAdded }) {
     </form>
   );
 }
+
+RecordCreatingForm.propTypes = {
+  fieldsForCreate: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      required: PropTypes.bool,
+    })
+  ).isRequired,
+  onRecordAdded: PropTypes.func.isRequired,
+};
 
 function EnhancedTableHead(props) {
   const {
@@ -141,6 +153,22 @@ function EnhancedTableHead(props) {
   );
 }
 
+EnhancedTableHead.propTypes = {
+  order: PropTypes.string.isRequired,
+  orderBy: PropTypes.string.isRequired,
+  onRequestSort: PropTypes.func.isRequired,
+  onSelectAllClick: PropTypes.func.isRequired,
+  numSelected: PropTypes.number.isRequired,
+  rowCount: PropTypes.number.isRequired,
+  columns: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      numeric: PropTypes.bool.isRequired,
+    })
+  ).isRequired,
+};
+
 function EnhancedTableToolbar(props) {
   const { numSelected, onDeleteClick } = props;
   return (
@@ -181,6 +209,7 @@ function DataTable(props) {
   } = table;
 
   const modalRef = React.useRef();
+  const modalFormRef = React.useRef();
   const [rows, setRows] = React.useState([]);
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState(idField);
@@ -202,6 +231,26 @@ function DataTable(props) {
         mainMessage,
         additionalMessage,
         closeButtonText
+      );
+    }
+  };
+
+  const openModalWithFormWithContent = (
+    newTitle,
+    newFormData,
+    newFormFields,
+    newCloseButtonText,
+    newSubmitButtonText,
+    newOnSubmit
+  ) => {
+    if (modalFormRef.current) {
+      modalFormRef.current.openModal(
+        newTitle,
+        newFormData,
+        newFormFields,
+        newCloseButtonText,
+        newSubmitButtonText,
+        newOnSubmit
       );
     }
   };
@@ -385,6 +434,45 @@ function DataTable(props) {
     setSelected([]);
   };
 
+  const handleEditRecord = (row) => {
+    const editRecord = async (record) => {
+      try {
+        const response = await axios.put(apiUrl, record);
+        console.log("Server response:", response.data);
+      } catch (error) {
+        handleError(error);
+        return false;
+      }
+      const response = await axios.get(`${table.tableApi}/all`);
+      const newRows = response.data;
+      setRows(newRows);
+      setSelected([]);
+      return true;
+    };
+
+    const handleError = (error) => {
+      console.error("Error while edit:", error);
+      if (error.response) {
+        const serverErrorResponse = error.response.data;
+        openModalWithContent(
+          "Error!",
+          serverErrorResponse.cause,
+          serverErrorResponse.message,
+          "OK"
+        );
+      }
+    };
+
+    openModalWithFormWithContent(
+      "Edit record",
+      row,
+      fieldsForCreate,
+      "Close",
+      "Save",
+      editRecord
+    );
+  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -398,7 +486,7 @@ function DataTable(props) {
     setDense(event.target.checked);
   };
 
-  const handleRecordAdded = async (data) => {
+  const handleAddRecord = async (data) => {
     const postRecord = async (data) => {
       try {
         const response = await axios.post(`${apiUrl}`, data);
@@ -448,17 +536,24 @@ function DataTable(props) {
 
   return (
     <Box sx={{ width: "100%" }}>
+      <ModalWindowWithForm
+        ref={modalFormRef}
+        windowTitle="Window title"
+        formData={{}}
+        closeButtonText="Close"
+        submitButtonText="Submit"
+      />
       <ModalWindow
         ref={modalRef}
-        windowTitle="Заголовок модального окна"
-        mainMessage="Основное сообщение"
-        additionalMessage="Дополнительное сообщение"
-        closeButtonText="Закрыть"
+        windowTitle="Window title"
+        mainMessage="Main message"
+        additionalMessage="Additional message"
+        closeButtonText="Close"
       />
       <RecordCreatingForm
         fieldsForCreate={fieldsForCreate}
         apiUrl={apiUrl}
-        onRecordAdded={handleRecordAdded}
+        onRecordAdded={handleAddRecord}
       />
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar
@@ -500,16 +595,27 @@ function DataTable(props) {
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.id}
+                    key={row[idField]}
                     selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
                   >
                     <StyledTableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{ "aria-labelledby": labelId }}
-                      />
+                      <Box display="flex" alignItems="center">
+                        <Checkbox
+                          color="primary"
+                          checked={isItemSelected}
+                          inputProps={{ "aria-labelledby": labelId }}
+                        />
+                        <IconButton
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            handleEditRecord(row);
+                          }}
+                          aria-label="edit"
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </Box>
                     </StyledTableCell>
                     {columns.map((column) => (
                       <StyledTableCell
@@ -548,8 +654,9 @@ function DataTable(props) {
   );
 }
 
-DataTable.propTypes = {
-  apiUrl: PropTypes.string.isRequired,
+EnhancedTableToolbar.propTypes = {
+  numSelected: PropTypes.number.isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
   tableTitle: PropTypes.string.isRequired,
 };
 
