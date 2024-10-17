@@ -12,6 +12,8 @@ import com.factory.backend.repository.ProductOrderRepository;
 import com.factory.backend.repository.ProductRepository;
 import com.factory.backend.services.IProductOrderService;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,8 @@ public class ProductOrderService implements IProductOrderService {
     private final ProductRepository productRepository;
 
     private final ProductOrderMapper productOrderMapper;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     public ProductOrderService(ProductOrderRepository productOrderRepository, ClientRepository clientRepository, ProductRepository productRepository, ProductOrderMapper productOrderMapper) {
@@ -56,7 +60,11 @@ public class ProductOrderService implements IProductOrderService {
     @Override
     @Transactional
     public ProductOrderDTO saveProductOrder(ProductOrderAddingDTO productOrderDTO) {
-        return productOrderMapper.entityToDto(productOrderRepository.save(populateProductOrder(productOrderDTO)));
+        return productOrderMapper.entityToDto(
+                productOrderRepository.save(
+                        populateProductOrder(productOrderDTO)
+                )
+        );
     }
 
     @Override
@@ -106,6 +114,7 @@ public class ProductOrderService implements IProductOrderService {
                 productRepository.findById(productOrderDTO.getProductSku())
                         .orElseThrow(() -> new ResourceNotFoundException("product with sku=%s not found", productOrderDTO.getProductSku()))
         );
+        productOrder.setId(new ProductOrderId(productOrderDTO.getClientPhoneNumber(), productOrderDTO.getProductSku()));
 
         return productOrder;
     }

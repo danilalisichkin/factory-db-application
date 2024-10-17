@@ -110,6 +110,7 @@ public class ProductMaterialService implements IProductMaterialService {
                         )
                         : null
         );
+        productMaterial.setId(new ProductMaterialId(productMaterialDTO.getProductSku(), productMaterialDTO.getMaterialSku()));
 
         return productMaterial;
     }
