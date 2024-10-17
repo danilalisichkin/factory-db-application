@@ -12,6 +12,8 @@ services:
     image: factory-backend:1.0.0
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/factory_db
+      - SPRING_DATASOURCE_USERNAME=factory_user
+      - SPRING_DATASOURCE_PASSWORD=admin
     ports:
       - "8080:8080"
 
