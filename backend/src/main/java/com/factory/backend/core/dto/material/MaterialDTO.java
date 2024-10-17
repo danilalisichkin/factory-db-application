@@ -13,7 +13,6 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "Entry to get/update/delete a record in \"materials\" table")
 public class MaterialDTO {
     @NotNull
-    @Size(min = 3, max = 100, message = "Name must be a string with length from 3 to 100 characters")
     private Integer id;
 
     @NotNull
