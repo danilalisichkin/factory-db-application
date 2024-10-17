@@ -17,14 +17,14 @@ Application consists of next parts:
 
 ## Launching and usage
 1. Clone this repository:
-   ```sh
-   https://github.com/danilalisichkin/factory-db-application
+   ```git
+   git clone https://github.com/danilalisichkin/factory-db-application
 2. Change current directory to factory-db-application:
    ```sh
    cd factory-db-application
    ```
 3. Launch docker-compose.yml:
-   ```sh
+   ```docker
    docker-compose up
    ```
 4. Open any suitable browser. Next you can go to the next URLs:
