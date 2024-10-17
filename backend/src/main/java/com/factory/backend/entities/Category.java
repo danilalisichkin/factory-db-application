@@ -39,4 +39,5 @@ public class Category {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "parent_id")
     private Category parent;
+
 }
