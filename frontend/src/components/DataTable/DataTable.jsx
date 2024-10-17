@@ -60,7 +60,10 @@ function RecordCreatingForm({ fieldsForCreate, apiUrl, onRecordAdded }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Grid2 container spacing={2}>
+      <Grid2 container spacing={2} sx={{
+        marginTop: "5px",
+        marginBottom: "5px"
+      }}>
         {fieldsForCreate.map((field) => (
           <Grid2 item xs={12} sm={field.required ? 6 : 12} key={field.name}>
             <TextField
@@ -78,9 +81,8 @@ function RecordCreatingForm({ fieldsForCreate, apiUrl, onRecordAdded }) {
           type="submit"
           variant="contained"
           color="primary"
-          style={{ marginTop: 16 }}
         >
-          Добавить
+          Add
         </Button>
       </Grid2>
     </form>
