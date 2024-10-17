@@ -1,33 +1,33 @@
 \c factory_db;
 
 INSERT INTO public.categories (name, parent_id) VALUES
-    ('Мебель', NULL),            --1
-    ('Мебель для спальни', 1),   --2
-    ('Кровати спальные', 2),     --3
-    ('Столики прикроватные', 2), --4
-    ('Мебель для гостинной', 1), --5
-    ('Столы журнальные', 5),     --6
-    ('Шкафы сервантные', 5),     --7
-    ('Мебель для кухни', 1),     --8
-    ('Стулья барные',8),        --9
-    ('Столы обеденные', 8);      --10
+    ('Furniture', NULL),            --1
+    ('Bedroom Furniture', 1),       --2
+    ('Beds', 2),                    --3
+    ('Nightstands', 2),             --4
+    ('Living Room Furniture', 1),   --5
+    ('Coffee Tables', 5),           --6
+    ('Cabinets', 5),                --7
+    ('Kitchen Furniture', 1),       --8
+    ('Bar Stools', 8),              --9
+    ('Dining Tables', 8);           --10
 
 INSERT INTO public.products (name, category_id, price) VALUES
-    ('Кровать "Королевская"', 3, 3200.00),  --1
-    ('Кровать "Славянка"', 3, 2200.00),     --2
-    ('Стол "Пиршество"', 10, 1400.00),      --3
-    ('Столик "Две тумбы плюс"', 4, 400.00), --4
-    ('Шкаф "Стеклянный куб"', 7, 2000.00);  --5
+    ('"Royal" Bed', 3, 3200.00),    --1
+    ('"Slavyanka" Bed', 3, 2200.00), --2
+    ('"Feast" Table', 10, 1400.00),  --3
+    ('"Two Nightstands Plus" Table', 4, 400.00), --4
+    ('"Glass Cube" Cabinet', 7, 2000.00);  --5
 
 INSERT INTO public.materials (name, supplier_name) VALUES
-    ('Дерево - берёза', 'ЧУП "Лесогрызы"'),            --1
-    ('Дерево - дуб', 'ЧУП "Лесогрызы"'),               --2
-    ('Стекло акриловое', 'ОАО "Стеклозавод "Неман""'), --3
-    ('ДВП', 'ОАО "СтоМатериаловПлюс"'),                --4
-    ('ДСП', 'ОАО "СтоМатериаловПлюс"'),                --5
-    ('Золото', 'ОАО "БелЮвелирТорг"'),                 --6
-    ('Кожа натуральная', 'ЧУП "Дикий охотник"'),       --7
-    ('Текстиль', 'ООО "Минская Текстильная Фабрика"'); --8
+    ('Wood - Birch', 'LLC "Lesogryzy"'),               --1
+    ('Wood - Oak', 'LLC "Lesogryzy"'),                 --2
+    ('Acrylic Glass', 'OJSC "Glass Factory "Neman""'), --3
+    ('Fiberboard', 'OJSC "MaterialPlus"'),             --4
+    ('Particle Board', 'OJSC "MaterialPlus"'),         --5
+    ('Gold', 'OJSC "BelJewelryTrade"'),                 --6
+    ('Natural Leather', 'LLC "Wild Hunter"'),           --7
+    ('Textile', 'LLC "Minsk Textile Factory"');         --8
 
 INSERT INTO public.product_materials (product_sku, material_sku) VALUES
     (1, 2),
@@ -46,9 +46,9 @@ INSERT INTO public.product_materials (product_sku, material_sku) VALUES
     (5, 5);
 
 INSERT INTO public.clients (phone_number, organization_name, email, legal_address) VALUES
-    ('375291111111', 'ОАО "АМИ Мебель"', 'ami@gmail.com', 'г. Дзержинск, ул. Ленина 12'),
-    ('375331223445', 'ООО "АйТи Решения"', 'itsolutions@gmail.com', 'г. Минск, ул. Интернациональная 14, о. 4'),
-    ('375441114444', 'ГУО "СШ 15 г. Минска"', 'shool15minsk@mail.ru', 'г. Минск, ул. Калинина 52');
+    ('375291111111', 'OJSC "AMI Furniture"', 'ami@gmail.com', 'Dzerzhinsk, Lenin St. 12'),
+    ('375331223445', 'LLC "IT Solutions"', 'itsolutions@gmail.com', 'Minsk, International St. 14, office 4'),
+    ('375441114444', 'State Educational Institution "School 15 of Minsk"', 'shool15minsk@mail.ru', 'Minsk, Kalinin St. 52');
 
 INSERT INTO public.product_orders (client_phone_number, product_sku, quantity) VALUES
     ('375291111111', 1, 2),
