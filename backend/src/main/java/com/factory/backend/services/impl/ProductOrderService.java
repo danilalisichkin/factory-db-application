@@ -48,7 +48,7 @@ public class ProductOrderService implements IProductOrderService {
     public ProductOrderDTO getProductOrderById(String clientPhone, Integer productId) {
         return productOrderMapper.entityToDto(
                 productOrderRepository.findById(new ProductOrderId(clientPhone, productId)).orElseThrow(
-                        () -> new ResourceNotFoundException("Product order with client_phone=%s and product_sku=%s not found", clientPhone, productId)
+                        () -> new ResourceNotFoundException("product order with client_phone=%s and product_sku=%s not found", clientPhone, productId)
                 )
         );
     }
@@ -67,7 +67,7 @@ public class ProductOrderService implements IProductOrderService {
                         productOrderDTO.getProductSku()
                 )
         )) {
-            throw new ResourceNotFoundException("Product order with client_phone=%s and product_sku=%s not found", productOrderDTO.getClientPhoneNumber(), productOrderDTO.getProductSku());
+            throw new ResourceNotFoundException("product order with client_phone=%s and product_sku=%s not found", productOrderDTO.getClientPhoneNumber(), productOrderDTO.getProductSku());
         }
 
         return productOrderMapper.entityToDto(productOrderRepository.save(populateProductOrder(productOrderDTO)));
@@ -76,7 +76,7 @@ public class ProductOrderService implements IProductOrderService {
     @Override
     public void deleteProductOrderById(String clientPhone, Integer productId) {
         if (!productOrderRepository.existsById(new ProductOrderId(clientPhone, productId))) {
-            throw new ResourceNotFoundException("Product order with client_phone=%s and product_sku=%s not found", clientPhone, productId);
+            throw new ResourceNotFoundException("product order with client_phone=%s and product_sku=%s not found", clientPhone, productId);
         }
         productOrderRepository.deleteById((new ProductOrderId(clientPhone, productId)));
     }
@@ -84,7 +84,7 @@ public class ProductOrderService implements IProductOrderService {
     @Override
     public void deleteAllProductOrders() {
         if (productOrderRepository.count() == 0) {
-            throw new ResourceNotFoundException("No product orders found");
+            throw new ResourceNotFoundException("no product orders found");
         } else {
             productOrderRepository.deleteAll();
         }
@@ -92,19 +92,19 @@ public class ProductOrderService implements IProductOrderService {
 
     private ProductOrder populateProductOrder(ProductOrderDTO productOrderDTO) {
         if (productOrderDTO.getProductSku() == null)
-            throw new BadRequestException("Product sku is required");
+            throw new BadRequestException("product sku is required");
         if (productOrderDTO.getClientPhoneNumber() == null || productOrderDTO.getClientPhoneNumber().isBlank())
-            throw new BadRequestException("Product sku is required");
+            throw new BadRequestException("product sku is required");
 
         ProductOrder productOrder = productOrderMapper.dtoToEntity(productOrderDTO);
 
         productOrder.setClientPhoneNumber(
                 clientRepository.findById(productOrderDTO.getClientPhoneNumber())
-                        .orElseThrow(() -> new ResourceNotFoundException("Client with phone=%s not found", productOrderDTO.getClientPhoneNumber()))
+                        .orElseThrow(() -> new ResourceNotFoundException("client with phone=%s not found", productOrderDTO.getClientPhoneNumber()))
         );
         productOrder.setProductSku(
                 productRepository.findById(productOrderDTO.getProductSku())
-                        .orElseThrow(() -> new ResourceNotFoundException("Product with sku=%s not found", productOrderDTO.getProductSku()))
+                        .orElseThrow(() -> new ResourceNotFoundException("product with sku=%s not found", productOrderDTO.getProductSku()))
         );
 
         return productOrder;

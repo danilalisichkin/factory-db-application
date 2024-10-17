@@ -36,7 +36,7 @@ public class ClientService implements IClientService {
     public ClientDTO getClientByPhone(String phone) {
         return clientMapper.entityToDto(
                 clientRepository.findById(phone).orElseThrow(
-                        () -> new ResourceNotFoundException("Client with phone=%s not found", phone)
+                        () -> new ResourceNotFoundException("client with phone=%s not found", phone)
                 )
         );
     }
@@ -51,7 +51,7 @@ public class ClientService implements IClientService {
     @Override
     public ClientDTO updateClient(ClientDTO clientDTO) {
         if (!clientRepository.existsById(clientDTO.getPhoneNumber())) {
-            throw new ResourceNotFoundException("Client with phone=%s not found", clientDTO.getPhoneNumber());
+            throw new ResourceNotFoundException("client with phone=%s not found", clientDTO.getPhoneNumber());
         }
 
         return clientMapper.entityToDto(
@@ -62,7 +62,7 @@ public class ClientService implements IClientService {
     @Override
     public void deleteClientByPhone(String phone) {
         if (!clientRepository.existsById(phone)) {
-            throw new ResourceNotFoundException("Client with phone=%s not found", phone);
+            throw new ResourceNotFoundException("client with phone=%s not found", phone);
         }
         clientRepository.deleteById(phone);
     }
@@ -70,7 +70,7 @@ public class ClientService implements IClientService {
     @Override
     public void deleteAllClients() {
         if (clientRepository.count() == 0) {
-            throw new ResourceNotFoundException("No clients found");
+            throw new ResourceNotFoundException("no clients found");
         } else {
             clientRepository.deleteAll();
         }

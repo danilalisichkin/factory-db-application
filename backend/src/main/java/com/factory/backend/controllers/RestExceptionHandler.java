@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,6 +39,13 @@ public class RestExceptionHandler {
                 .body(new ExceptionMessage(e.getMessage(), "bad request"));
     }
 
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ExceptionMessage("can't read request: param or body is in invalid format", "bad request"));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleNoValidException(MethodArgumentNotValidException e) {
         Map<String, String> errorMap = new HashMap<>();
@@ -48,7 +56,12 @@ public class RestExceptionHandler {
             errorMap.put(fieldName, errorMessage);
         });
 
-        String cause = "invalid input provided: " + errorMap;
+        StringBuilder causeBuilder = new StringBuilder("invalid input provided:\n");
+        errorMap.forEach((field, message) ->
+                causeBuilder.append("- ").append(field).append(": ").append(message).append("\n")
+        );
+
+        String cause = causeBuilder.toString().trim();
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -64,7 +77,7 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<Object> handleOtherException(Throwable e) {
-        logger.error("Internal server error", e);
+        logger.error("internal server error", e);
 
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
