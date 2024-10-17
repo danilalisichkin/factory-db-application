@@ -37,7 +37,7 @@ public class CategoryService implements ICategoryService {
     public CategoryDTO getCategoryById(Integer id) {
         return categoryMapper.entityToDto(
                 categoryRepository.findById(id).orElseThrow(
-                        () -> new ResourceNotFoundException("Category with id=%s not found", id)
+                        () -> new ResourceNotFoundException("category with id=%s not found", id)
                 )
         );
     }
@@ -48,7 +48,7 @@ public class CategoryService implements ICategoryService {
         category.setParent(
                 categoryDTO.getParentId() != null
                         ? categoryRepository.findById(categoryDTO.getParentId()).orElseThrow(
-                                () -> new ResourceNotFoundException("Parent category with id=%s not found", categoryDTO.getParentId()))
+                                () -> new ResourceNotFoundException("parent category with id=%s not found", categoryDTO.getParentId()))
                         : null
         );
 
@@ -58,14 +58,14 @@ public class CategoryService implements ICategoryService {
     @Override
     public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
         if (!categoryRepository.existsById(categoryDTO.getId())) {
-            throw new ResourceNotFoundException("Category with id=%s not found", categoryDTO.getId());
+            throw new ResourceNotFoundException("category with id=%s not found", categoryDTO.getId());
         }
 
         Category category = categoryMapper.dtoToEntity(categoryDTO);
         category.setParent(
                 categoryDTO.getParentId() != null
                         ? categoryRepository.findById(categoryDTO.getParentId()).orElseThrow(
-                        () -> new ResourceNotFoundException("Parent category with id=%s not found", categoryDTO.getParentId()))
+                        () -> new ResourceNotFoundException("parent category with id=%s not found", categoryDTO.getParentId()))
                         : null
         );
 
@@ -75,7 +75,7 @@ public class CategoryService implements ICategoryService {
     @Override
     public void deleteCategoryById(Integer id) {
         if (!categoryRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Category with id=%s not found", id);
+            throw new ResourceNotFoundException("category with id=%s not found", id);
         }
         categoryRepository.deleteById(id);
     }
@@ -83,7 +83,7 @@ public class CategoryService implements ICategoryService {
     @Override
     public void deleteAllCategories() {
         if (categoryRepository.count() == 0) {
-            throw new ResourceNotFoundException("No categories found");
+            throw new ResourceNotFoundException("no categories found");
         } else {
             categoryRepository.deleteAll();
         }

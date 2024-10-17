@@ -51,8 +51,8 @@ public class ProductOrderApiController {
     @Operation(summary = "Get", description = "Allows to get existing record by its id")
     public ResponseEntity<ProductOrderDTO> getProductOrder(
             @NotNull
-            @Pattern(regexp = "^\\+375(15|29|33|44)\\d{7}$",
-                    message = "illegal format of phone number, correct example: +375291234567")
+            @Pattern(regexp = "^375(15|29|33|44)\\d{7}$",
+                    message = "illegal format of phone number, correct example: 375291234567")
             @PathVariable String client_phone,
             @NotNull @PathVariable Integer product_id) {
         logger.info("Sending product order with client_phone={} and product_id={}", client_phone, product_id);
@@ -86,8 +86,8 @@ public class ProductOrderApiController {
     @Operation(summary = "Delete", description = "Allows to delete existing record by its id")
     public ResponseEntity<Void> deleteProductOrder(
             @NotNull
-            @Pattern(regexp = "^\\+375(15|29|33|44)\\d{7}$",
-                    message = "illegal format of phone number, correct example: +375291234567")
+            @Pattern(regexp = "^375(15|29|33|44)\\d{7}$",
+                    message = "illegal format of phone number, correct example: 375291234567")
             @PathVariable String client_phone,
             @NotNull @PathVariable Integer product_id) {
         logger.info("Deleting product order with client_phone={} amd product_id={}", client_phone, product_id);

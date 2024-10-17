@@ -13,8 +13,8 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "Entry to get/update/delete a record in \"product_orders\" table")
 public class ProductOrderDTO {
     @NotNull
-    @Pattern(regexp = "^\\+375(15|29|33|44)\\d{7}$",
-            message = "illegal format of phone number, correct example: +375291234567")
+    @Pattern(regexp = "^375(15|29|33|44)\\d{7}$",
+            message = "illegal format of phone number, correct example: 375291234567")
     private String clientPhoneNumber;
 
     @NotNull

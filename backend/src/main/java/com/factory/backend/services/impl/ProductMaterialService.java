@@ -46,7 +46,7 @@ public class ProductMaterialService implements IProductMaterialService {
     public ProductMaterialDTO getProductMaterialById(Integer productId, Integer materialId) {
         return productMaterialMapper.entityToDto(
                 productMaterialRepository.findById(new ProductMaterialId(productId, materialId)).orElseThrow(
-                        () -> new ResourceNotFoundException("Product material with product_sku=%s and material_sku=%s not found", productId, materialId)
+                        () -> new ResourceNotFoundException("product material with product_sku=%s and material_sku=%s not found", productId, materialId)
                 )
         );
     }
@@ -63,7 +63,7 @@ public class ProductMaterialService implements IProductMaterialService {
                         productMaterialDTO.getMaterialSku()
                 )
         )) {
-            throw new ResourceNotFoundException("Product material with product_sku=%s and material_sku=%s not found", productMaterialDTO.getProductSku(), productMaterialDTO.getMaterialSku());
+            throw new ResourceNotFoundException("product material with product_sku=%s and material_sku=%s not found", productMaterialDTO.getProductSku(), productMaterialDTO.getMaterialSku());
         }
 
         return productMaterialMapper.entityToDto(productMaterialRepository.save(populateProductMaterial(productMaterialDTO)));
@@ -72,7 +72,7 @@ public class ProductMaterialService implements IProductMaterialService {
     @Override
     public void deleteProductMaterialById(Integer productId, Integer materialId) {
         if (!productMaterialRepository.existsById(new ProductMaterialId(productId, materialId))) {
-            throw new ResourceNotFoundException("Product material with product_sku=%s and material_sku=%s not found", productId, materialId);
+            throw new ResourceNotFoundException("product material with product_sku=%s and material_sku=%s not found", productId, materialId);
         }
         productMaterialRepository.deleteById((new ProductMaterialId(productId, materialId)));
     }
@@ -80,7 +80,7 @@ public class ProductMaterialService implements IProductMaterialService {
     @Override
     public void deleteAllProductMaterials() {
         if (productMaterialRepository.count() == 0) {
-            throw new ResourceNotFoundException("No product materials found");
+            throw new ResourceNotFoundException("no product materials found");
         } else {
             productMaterialRepository.deleteAll();
         }
@@ -88,9 +88,9 @@ public class ProductMaterialService implements IProductMaterialService {
 
     private ProductMaterial populateProductMaterial(ProductMaterialDTO productMaterialDTO) {
         if (productMaterialDTO.getProductSku() == null)
-            throw new ResourceNotFoundException("Product sku is required");
+            throw new ResourceNotFoundException("product sku is required");
         if (productMaterialDTO.getMaterialSku() == null)
-            throw new ResourceNotFoundException("Material sku is required");
+            throw new ResourceNotFoundException("material sku is required");
 
         ProductMaterial productMaterial = productMaterialMapper.dtoToEntity(productMaterialDTO);
 
@@ -98,7 +98,7 @@ public class ProductMaterialService implements IProductMaterialService {
                 productMaterialDTO.getProductSku() != null
                         ? productRepository.findById(productMaterialDTO.getProductSku())
                         .orElseThrow(() -> new ResourceNotFoundException(
-                                "Product with sku=%s not found", productMaterialDTO.getProductSku())
+                                "product with sku=%s not found", productMaterialDTO.getProductSku())
                         )
                         : null
         );
@@ -106,7 +106,7 @@ public class ProductMaterialService implements IProductMaterialService {
                 productMaterialDTO.getMaterialSku() != null
                         ? materialRepository.findById(productMaterialDTO.getMaterialSku())
                         .orElseThrow(() -> new ResourceNotFoundException(
-                                "Material with sku=%s not found", productMaterialDTO.getMaterialSku())
+                                "material with sku=%s not found", productMaterialDTO.getMaterialSku())
                         )
                         : null
         );
