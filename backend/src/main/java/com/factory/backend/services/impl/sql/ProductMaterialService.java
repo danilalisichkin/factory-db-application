@@ -11,12 +11,14 @@ import com.factory.backend.repository.sql.ProductMaterialRepository;
 import com.factory.backend.repository.sql.ProductRepository;
 import com.factory.backend.services.IProductMaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Qualifier("productMaterialService")
 public class ProductMaterialService implements IProductMaterialService {
 
     private final ProductMaterialRepository productMaterialRepository;

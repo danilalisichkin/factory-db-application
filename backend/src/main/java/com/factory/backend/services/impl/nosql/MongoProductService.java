@@ -10,12 +10,14 @@ import com.factory.backend.repository.nosql.MongoProductRepository;
 import com.factory.backend.services.IProductService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Qualifier("mongoProductService")
 public class MongoProductService implements IProductService {
 
     private final MongoProductRepository productRepository;

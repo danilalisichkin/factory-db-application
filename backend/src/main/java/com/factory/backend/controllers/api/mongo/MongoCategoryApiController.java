@@ -4,6 +4,7 @@ import com.factory.backend.controllers.api.abstracts.AbstractCategoryController;
 import com.factory.backend.services.ICategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "MongoCategoryController", description = "Provides CRUD-operations with records in \"categories\" table")
 public class MongoCategoryApiController extends AbstractCategoryController {
     @Autowired
-    public MongoCategoryApiController(ICategoryService categoryService) {
+    public MongoCategoryApiController(@Qualifier("mongoCategoryService") ICategoryService categoryService) {
         super(categoryService);
     }
 }

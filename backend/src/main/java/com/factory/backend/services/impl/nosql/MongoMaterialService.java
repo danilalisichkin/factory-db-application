@@ -7,12 +7,14 @@ import com.factory.backend.exceptions.ResourceNotFoundException;
 import com.factory.backend.repository.nosql.MongoMaterialRepository;
 import com.factory.backend.services.IMaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Qualifier("mongoMaterialService")
 public class MongoMaterialService implements IMaterialService {
 
     private final MongoMaterialRepository materialRepository;

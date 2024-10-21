@@ -8,12 +8,14 @@ import com.factory.backend.exceptions.ResourceNotFoundException;
 import com.factory.backend.repository.nosql.MongoCategoryRepository;
 import com.factory.backend.services.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Qualifier("mongoCategoryService")
 public class MongoCategoryService implements ICategoryService {
 
     private final MongoCategoryRepository categoryRepository;

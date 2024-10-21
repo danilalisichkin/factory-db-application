@@ -4,6 +4,7 @@ import com.factory.backend.controllers.api.abstracts.AbstractProductController;
 import com.factory.backend.services.IProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "ProductController", description = "Provides CRUD-operations with records in \"products\" table")
 public class ProductApiController extends AbstractProductController {
     @Autowired
-    public ProductApiController(IProductService productService) {
+    public ProductApiController(@Qualifier("productService") IProductService productService) {
         super(productService);
     }
 }

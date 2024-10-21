@@ -4,6 +4,7 @@ import com.factory.backend.controllers.api.abstracts.AbstractMaterialController;
 import com.factory.backend.services.IMaterialService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name="MongoMaterialController", description="Provides CRUD-operations with records in \"materials\" table")
 public class MongoMaterialApiController extends AbstractMaterialController {
     @Autowired
-    public MongoMaterialApiController(IMaterialService materialService) {
+    public MongoMaterialApiController(@Qualifier("mongoMaterialService") IMaterialService materialService) {
         super(materialService);
     }
 }

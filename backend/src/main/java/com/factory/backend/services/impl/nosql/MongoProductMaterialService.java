@@ -10,12 +10,14 @@ import com.factory.backend.repository.nosql.MongoProductMaterialRepository;
 import com.factory.backend.repository.nosql.MongoProductRepository;
 import com.factory.backend.services.IProductMaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Qualifier("mongoProductMaterialService")
 public class MongoProductMaterialService implements IProductMaterialService {
 
     private final MongoProductMaterialRepository productMaterialRepository;
