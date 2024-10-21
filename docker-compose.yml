@@ -1,10 +1,17 @@
 version: '3'
 services:
   postgres:
-    build: database
-    image: factory-database:1.0.0
+    build: database/PostgreSQL
+    image: factory-postgres-database:1.0.0
     ports:
-      - "5432:5432"
+      - "5431:5432"
+
+
+  mongo:
+    build: database/MongoDB
+    image: factory-mongo-database:1.0.0
+    ports:
+      - "27016:27017"
 
 
   backend:

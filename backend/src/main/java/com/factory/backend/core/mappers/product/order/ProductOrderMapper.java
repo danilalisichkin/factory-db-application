@@ -2,7 +2,7 @@ package com.factory.backend.core.mappers.product.order;
 
 import com.factory.backend.core.dto.product.order.ProductOrderAddingDTO;
 import com.factory.backend.core.dto.product.order.ProductOrderDTO;
-import com.factory.backend.entities.ProductOrder;
+import com.factory.backend.entities.sql.ProductOrder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
