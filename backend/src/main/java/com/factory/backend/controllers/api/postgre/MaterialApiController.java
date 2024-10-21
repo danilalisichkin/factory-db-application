@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/materials")
+@RequestMapping("/api/postgres/v1/materials")
 @Tag(name="MaterialController", description="Provides CRUD-operations with records in \"materials\" table")
 public class MaterialApiController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());

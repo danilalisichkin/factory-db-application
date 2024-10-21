@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/product-orders")
+@RequestMapping("/api/postgres/v1/product-orders")
 @Tag(name="ProductOrderController", description="Provides CRUD-operations with records in \"product_orders\" table")
 public class ProductOrderApiController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
