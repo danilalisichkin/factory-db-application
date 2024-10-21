@@ -1,4 +1,4 @@
-package com.factory.backend.services.impl;
+package com.factory.backend.services.impl.sql;
 
 import com.factory.backend.core.dto.product.material.ProductMaterialAddingDTO;
 import com.factory.backend.core.dto.product.material.ProductMaterialDTO;
@@ -95,20 +95,16 @@ public class ProductMaterialService implements IProductMaterialService {
         ProductMaterial productMaterial = productMaterialMapper.dtoToEntity(productMaterialDTO);
 
         productMaterial.setProductSku(
-                productMaterialDTO.getProductSku() != null
-                        ? productRepository.findById(productMaterialDTO.getProductSku())
+                        productRepository.findById(productMaterialDTO.getProductSku())
                         .orElseThrow(() -> new ResourceNotFoundException(
                                 "product with sku=%s not found", productMaterialDTO.getProductSku())
                         )
-                        : null
         );
         productMaterial.setMaterialSku(
-                productMaterialDTO.getMaterialSku() != null
-                        ? materialRepository.findById(productMaterialDTO.getMaterialSku())
+                        materialRepository.findById(productMaterialDTO.getMaterialSku())
                         .orElseThrow(() -> new ResourceNotFoundException(
                                 "material with sku=%s not found", productMaterialDTO.getMaterialSku())
                         )
-                        : null
         );
         productMaterial.setId(new ProductMaterialId(productMaterialDTO.getProductSku(), productMaterialDTO.getMaterialSku()));
 

@@ -1,4 +1,4 @@
-package com.factory.backend.services.impl;
+package com.factory.backend.services.impl.sql;
 
 import com.factory.backend.core.dto.product.ProductAddingDTO;
 import com.factory.backend.core.dto.product.ProductDTO;
