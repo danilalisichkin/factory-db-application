@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/postgres/v1/clients")
+@RequestMapping("/postgres/api/v1/clients")
 @Tag(name = "ClientController", description = "Provides CRUD-operations with records in \"clients\" table")
 public class ClientApiController extends AbstractClientController {
     @Autowired

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/postgres/v1/categories")
+@RequestMapping("/postgres/api/v1/categories")
 @Tag(name = "CategoryController", description = "Provides CRUD-operations with records in \"categories\" table")
 public class CategoryApiController extends AbstractCategoryController {
     @Autowired
