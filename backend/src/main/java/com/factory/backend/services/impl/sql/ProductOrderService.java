@@ -99,22 +99,25 @@ public class ProductOrderService implements IProductOrderService {
     }
 
     private ProductOrder populateProductOrder(ProductOrderDTO productOrderDTO) {
-        if (productOrderDTO.getProductSku() == null)
-            throw new BadRequestException("product sku is required");
-        if (productOrderDTO.getClientPhoneNumber() == null || productOrderDTO.getClientPhoneNumber().isBlank())
+        String clientPhone = productOrderDTO.getClientPhoneNumber();
+        Integer productSku = productOrderDTO.getProductSku();
+
+        if (clientPhone == null || clientPhone.isBlank())
+            throw new BadRequestException("client phone is required");
+        if (productSku == null)
             throw new BadRequestException("product sku is required");
 
         ProductOrder productOrder = productOrderMapper.dtoToEntity(productOrderDTO);
 
         productOrder.setClientPhoneNumber(
-                clientRepository.findById(productOrderDTO.getClientPhoneNumber())
-                        .orElseThrow(() -> new ResourceNotFoundException("client with phone=%s not found", productOrderDTO.getClientPhoneNumber()))
+                clientRepository.findById(clientPhone)
+                        .orElseThrow(() -> new ResourceNotFoundException("client with phone=%s not found", clientPhone))
         );
         productOrder.setProductSku(
-                productRepository.findById(productOrderDTO.getProductSku())
-                        .orElseThrow(() -> new ResourceNotFoundException("product with sku=%s not found", productOrderDTO.getProductSku()))
+                productRepository.findById(productSku)
+                        .orElseThrow(() -> new ResourceNotFoundException("product with sku=%s not found", productSku))
         );
-        productOrder.setId(new ProductOrderId(productOrderDTO.getClientPhoneNumber(), productOrderDTO.getProductSku()));
+        productOrder.setId(new ProductOrderId(clientPhone, productSku));
 
         return productOrder;
     }

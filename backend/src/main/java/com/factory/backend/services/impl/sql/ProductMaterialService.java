@@ -87,26 +87,29 @@ public class ProductMaterialService implements IProductMaterialService {
     }
 
     private ProductMaterial populateProductMaterial(ProductMaterialDTO productMaterialDTO) {
-        if (productMaterialDTO.getProductSku() == null)
+        Integer productSku = productMaterialDTO.getProductSku();
+        Integer materialSku = productMaterialDTO.getMaterialSku();
+
+        if (productSku == null)
             throw new ResourceNotFoundException("product sku is required");
-        if (productMaterialDTO.getMaterialSku() == null)
+        if (materialSku == null)
             throw new ResourceNotFoundException("material sku is required");
 
         ProductMaterial productMaterial = productMaterialMapper.dtoToEntity(productMaterialDTO);
 
         productMaterial.setProductSku(
-                        productRepository.findById(productMaterialDTO.getProductSku())
+                        productRepository.findById(productSku)
                         .orElseThrow(() -> new ResourceNotFoundException(
-                                "product with sku=%s not found", productMaterialDTO.getProductSku())
+                                "product with sku=%s not found", productSku)
                         )
         );
         productMaterial.setMaterialSku(
-                        materialRepository.findById(productMaterialDTO.getMaterialSku())
+                        materialRepository.findById(materialSku)
                         .orElseThrow(() -> new ResourceNotFoundException(
-                                "material with sku=%s not found", productMaterialDTO.getMaterialSku())
+                                "material with sku=%s not found", materialSku)
                         )
         );
-        productMaterial.setId(new ProductMaterialId(productMaterialDTO.getProductSku(), productMaterialDTO.getMaterialSku()));
+        productMaterial.setId(new ProductMaterialId(productSku, materialSku));
 
         return productMaterial;
     }
