@@ -24,5 +24,5 @@ public class MongoProduct {
     private Double price;
 
     @Field(name = "category_id")
-    private Integer category;
+    private Integer categoryId;
 }
