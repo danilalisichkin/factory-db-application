@@ -87,8 +87,8 @@ public class ProductMaterialService implements IProductMaterialService {
     }
 
     private ProductMaterial populateProductMaterial(ProductMaterialDTO productMaterialDTO) {
-        Integer productSku = productMaterialDTO.getProductSku();
-        Integer materialSku = productMaterialDTO.getMaterialSku();
+        final Integer productSku = productMaterialDTO.getProductSku();
+        final Integer materialSku = productMaterialDTO.getMaterialSku();
 
         if (productSku == null)
             throw new ResourceNotFoundException("product sku is required");

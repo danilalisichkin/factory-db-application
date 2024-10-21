@@ -12,8 +12,6 @@ import com.factory.backend.repository.sql.ProductOrderRepository;
 import com.factory.backend.repository.sql.ProductRepository;
 import com.factory.backend.services.IProductOrderService;
 import jakarta.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +28,6 @@ public class ProductOrderService implements IProductOrderService {
     private final ProductRepository productRepository;
 
     private final ProductOrderMapper productOrderMapper;
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     public ProductOrderService(ProductOrderRepository productOrderRepository, ClientRepository clientRepository, ProductRepository productRepository, ProductOrderMapper productOrderMapper) {
@@ -86,7 +82,7 @@ public class ProductOrderService implements IProductOrderService {
         if (!productOrderRepository.existsById(new ProductOrderId(clientPhone, productId))) {
             throw new ResourceNotFoundException("product order with client_phone=%s and product_sku=%s not found", clientPhone, productId);
         }
-        productOrderRepository.deleteById((new ProductOrderId(clientPhone, productId)));
+        productOrderRepository.deleteById(new ProductOrderId(clientPhone, productId));
     }
 
     @Override
@@ -99,8 +95,8 @@ public class ProductOrderService implements IProductOrderService {
     }
 
     private ProductOrder populateProductOrder(ProductOrderDTO productOrderDTO) {
-        String clientPhone = productOrderDTO.getClientPhoneNumber();
-        Integer productSku = productOrderDTO.getProductSku();
+        final String clientPhone = productOrderDTO.getClientPhoneNumber();
+        final Integer productSku = productOrderDTO.getProductSku();
 
         if (clientPhone == null || clientPhone.isBlank())
             throw new BadRequestException("client phone is required");
