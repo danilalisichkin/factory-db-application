@@ -1,10 +1,6 @@
 package com.factory.backend.entities.nosql;
 
-import com.factory.backend.entities.sql.Material;
-import com.factory.backend.entities.sql.Product;
 import jakarta.persistence.Id;
-import jakarta.persistence.PostLoad;
-import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,18 +12,25 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collation = "product_materials")
-public class ProductMaterial {
+@Document(collation = "product_orders")
+public class MongoProductOrder {
     @Id
     private String id;
+
+    @Field(name = "client_phone_number")
+    private String clientPhoneNumber;
 
     @Field(name = "product_sku")
     private Integer productSku;
 
-    @Field(name = "material_sku")
-    private Integer materialSku;
+    @Field(name = "quantity")
+    private Integer quantity;
 
     public void generateId() {
-        this.id = productSku + "-" + materialSku;
+        this.id = generateId(this.clientPhoneNumber, this.productSku);
+    }
+
+    public static String generateId(String clientPhoneNumber, Integer productSku) {
+        return clientPhoneNumber + "-" + productSku;
     }
 }

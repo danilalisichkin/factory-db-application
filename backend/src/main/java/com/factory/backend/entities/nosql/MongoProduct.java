@@ -12,18 +12,17 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collation = "clients")
-public class Client {
+@Document(collation = "products")
+public class MongoProduct {
     @Id
-    @Field(name = "phone_number")
-    private String phoneNumber;
+    private Integer id;
 
-    @Field(name = "organization_name")
-    private String organizationName;
+    @Field(name = "name")
+    private String name;
 
-    @Field(name = "email")
-    private String email;
+    @Field(name = "price")
+    private Double price;
 
-    @Field(name = "legal_address")
-    private String legalAddress;
+    @Field(name = "category_id")
+    private Integer category;
 }

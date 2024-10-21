@@ -12,13 +12,14 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collation = "categories")
-public class Category {
+@Document(collation = "materials")
+public class MongoMaterial {
     @Id
     private Integer id;
 
+    @Field(name = "name")
     private String name;
 
-    @Field(name = "parent_id")
-    private Integer parentId;
+    @Field(name = "supplier_name")
+    private String supplierName;
 }

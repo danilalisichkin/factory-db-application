@@ -12,21 +12,22 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collation = "product_orders")
-public class ProductOrder {
+@Document(collation = "product_materials")
+public class MongoProductMaterial {
     @Id
     private String id;
-
-    @Field(name = "client_phone_number")
-    private String clientPhoneNumber;
 
     @Field(name = "product_sku")
     private Integer productSku;
 
-    @Field(name = "quantity")
-    private Integer quantity;
+    @Field(name = "material_sku")
+    private Integer materialSku;
 
     public void generateId() {
-        this.id = clientPhoneNumber + "-" + productSku;
+        this.id = generateId(this.productSku, this.materialSku);
+    }
+
+    public static String generateId(Integer productSku, Integer materialSku) {
+        return productSku + "-" + materialSku;
     }
 }
