@@ -2,7 +2,7 @@ package com.factory.backend.core.mappers.product.material;
 
 import com.factory.backend.core.dto.product.material.ProductMaterialAddingDTO;
 import com.factory.backend.core.dto.product.material.ProductMaterialDTO;
-import com.factory.backend.entities.ProductMaterial;
+import com.factory.backend.entities.sql.ProductMaterial;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
