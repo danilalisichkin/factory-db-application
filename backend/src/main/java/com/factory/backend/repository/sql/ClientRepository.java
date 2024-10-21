@@ -1,6 +1,6 @@
-package com.factory.backend.repository;
+package com.factory.backend.repository.sql;
 
-import com.factory.backend.entities.Client;
+import com.factory.backend.entities.sql.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

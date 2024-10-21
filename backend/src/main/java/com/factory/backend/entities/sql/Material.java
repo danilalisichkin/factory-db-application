@@ -1,4 +1,4 @@
-package com.factory.backend.entities;
+package com.factory.backend.entities.sql;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

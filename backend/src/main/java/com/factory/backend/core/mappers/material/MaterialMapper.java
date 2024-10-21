@@ -2,7 +2,7 @@ package com.factory.backend.core.mappers.material;
 
 import com.factory.backend.core.dto.material.MaterialAddingDTO;
 import com.factory.backend.core.dto.material.MaterialDTO;
-import com.factory.backend.entities.Material;
+import com.factory.backend.entities.sql.Material;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

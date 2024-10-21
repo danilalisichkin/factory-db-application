@@ -1,4 +1,4 @@
-package com.factory.backend.controllers.api;
+package com.factory.backend.controllers.api.postgre;
 
 import com.factory.backend.core.dto.product.order.ProductOrderAddingDTO;
 import com.factory.backend.core.dto.product.order.ProductOrderDTO;

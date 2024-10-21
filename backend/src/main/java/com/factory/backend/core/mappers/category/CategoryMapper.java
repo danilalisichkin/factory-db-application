@@ -2,7 +2,7 @@ package com.factory.backend.core.mappers.category;
 
 import com.factory.backend.core.dto.category.CategoryAddingDTO;
 import com.factory.backend.core.dto.category.CategoryDTO;
-import com.factory.backend.entities.Category;
+import com.factory.backend.entities.sql.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

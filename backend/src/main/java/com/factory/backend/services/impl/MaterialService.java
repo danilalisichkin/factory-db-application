@@ -4,7 +4,7 @@ import com.factory.backend.core.dto.material.MaterialAddingDTO;
 import com.factory.backend.core.dto.material.MaterialDTO;
 import com.factory.backend.core.mappers.material.MaterialMapper;
 import com.factory.backend.exceptions.ResourceNotFoundException;
-import com.factory.backend.repository.MaterialRepository;
+import com.factory.backend.repository.sql.MaterialRepository;
 import com.factory.backend.services.IMaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,6 @@
-package com.factory.backend.entities;
+package com.factory.backend.entities.sql;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,11 +23,17 @@ import org.hibernate.annotations.OnDeleteAction;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "product_materials")
-public class ProductMaterial {
-    @SequenceGenerator(name = "product_materials_id_gen", sequenceName = "materials_sku_seq", allocationSize = 1)
+@Table(name = "product_orders")
+public class ProductOrder {
+    @SequenceGenerator(name = "product_orders_id_gen", sequenceName = "products_sku_seq", allocationSize = 1)
     @EmbeddedId
-    private ProductMaterialId id;
+    private ProductOrderId id;
+
+    @MapsId("clientPhoneNumber")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "client_phone_number", nullable = false)
+    private Client clientPhoneNumber;
 
     @MapsId("productSku")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -34,10 +41,7 @@ public class ProductMaterial {
     @JoinColumn(name = "product_sku", nullable = false)
     private Product productSku;
 
-    @MapsId("materialSku")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "material_sku", nullable = false)
-    private Material materialSku;
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
 
 }

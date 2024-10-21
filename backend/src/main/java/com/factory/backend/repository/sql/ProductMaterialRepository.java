@@ -1,7 +1,7 @@
-package com.factory.backend.repository;
+package com.factory.backend.repository.sql;
 
-import com.factory.backend.entities.ProductMaterial;
-import com.factory.backend.entities.ProductMaterialId;
+import com.factory.backend.entities.sql.ProductMaterial;
+import com.factory.backend.entities.sql.ProductMaterialId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

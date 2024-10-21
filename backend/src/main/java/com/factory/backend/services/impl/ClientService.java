@@ -4,7 +4,7 @@ import com.factory.backend.core.dto.client.ClientAddingDTO;
 import com.factory.backend.core.dto.client.ClientDTO;
 import com.factory.backend.core.mappers.client.ClientMapper;
 import com.factory.backend.exceptions.ResourceNotFoundException;
-import com.factory.backend.repository.ClientRepository;
+import com.factory.backend.repository.sql.ClientRepository;
 import com.factory.backend.services.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
