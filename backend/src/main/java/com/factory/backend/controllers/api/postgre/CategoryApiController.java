@@ -1,6 +1,6 @@
 package com.factory.backend.controllers.api.postgre;
 
-import com.factory.backend.controllers.api.abstracts.AbstractCategoryController;
+import com.factory.backend.controllers.abstracts.AbstractCategoryController;
 import com.factory.backend.services.ICategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

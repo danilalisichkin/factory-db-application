@@ -1,6 +1,6 @@
 package com.factory.backend.controllers.api.mongo;
 
-import com.factory.backend.controllers.api.abstracts.AbstractProductController;
+import com.factory.backend.controllers.abstracts.AbstractProductController;
 import com.factory.backend.services.IProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.factory.backend.controllers.api.postgre;
 
-import com.factory.backend.controllers.api.abstracts.AbstractProductOrderController;
+import com.factory.backend.controllers.abstracts.AbstractProductOrderController;
 import com.factory.backend.services.IProductOrderService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

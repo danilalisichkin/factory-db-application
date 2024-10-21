@@ -1,6 +1,6 @@
 package com.factory.backend.controllers.api.mongo;
 
-import com.factory.backend.controllers.api.abstracts.AbstractMaterialController;
+import com.factory.backend.controllers.abstracts.AbstractMaterialController;
 import com.factory.backend.services.IMaterialService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

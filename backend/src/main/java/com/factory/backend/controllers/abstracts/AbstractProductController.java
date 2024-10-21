@@ -1,4 +1,4 @@
-package com.factory.backend.controllers.api.abstracts;
+package com.factory.backend.controllers.abstracts;
 
 import com.factory.backend.core.dto.product.ProductAddingDTO;
 import com.factory.backend.core.dto.product.ProductDTO;

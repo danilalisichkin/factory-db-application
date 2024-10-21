@@ -1,4 +1,4 @@
-package com.factory.backend.controllers.api.abstracts;
+package com.factory.backend.controllers.abstracts;
 
 import com.factory.backend.core.dto.material.MaterialAddingDTO;
 import com.factory.backend.core.dto.material.MaterialDTO;
