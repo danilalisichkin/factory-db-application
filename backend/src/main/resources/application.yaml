@@ -12,5 +12,10 @@ spring:
       hibernate:
         default_schema: public
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/factory_db
+      username: factory_user
+      password: admin
 server:
   port: 8080
