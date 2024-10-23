@@ -7,6 +7,7 @@ import com.factory.backend.entities.nosql.MongoCategory;
 import com.factory.backend.exceptions.ResourceNotFoundException;
 import com.factory.backend.repository.nosql.MongoCategoryRepository;
 import com.factory.backend.services.ICategoryService;
+import com.factory.backend.services.IIdentifierGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,13 @@ public class MongoCategoryService implements ICategoryService {
 
     private final MongoCategoryMapper categoryMapper;
 
+    private final IIdentifierGenerationService identifierGenerationService;
+
     @Autowired
-    public MongoCategoryService(MongoCategoryRepository categoryRepository, MongoCategoryMapper categoryMapper) {
+    public MongoCategoryService(MongoCategoryRepository categoryRepository, MongoCategoryMapper categoryMapper, IIdentifierGenerationService identifierGenerationService) {
         this.categoryRepository = categoryRepository;
         this.categoryMapper = categoryMapper;
+        this.identifierGenerationService = identifierGenerationService;
     }
 
     @Override
@@ -51,6 +55,7 @@ public class MongoCategoryService implements ICategoryService {
         }
 
         MongoCategory category = categoryMapper.addingDtoToEntity(categoryDTO);
+        category.setId(identifierGenerationService.generateCategoryIdentifier());
 
         return categoryMapper.entityToDto(categoryRepository.save(category));
     }

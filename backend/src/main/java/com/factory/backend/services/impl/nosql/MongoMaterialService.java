@@ -3,8 +3,10 @@ package com.factory.backend.services.impl.nosql;
 import com.factory.backend.core.dto.material.MaterialAddingDTO;
 import com.factory.backend.core.dto.material.MaterialDTO;
 import com.factory.backend.core.mappers.material.MongoMaterialMapper;
+import com.factory.backend.entities.nosql.MongoMaterial;
 import com.factory.backend.exceptions.ResourceNotFoundException;
 import com.factory.backend.repository.nosql.MongoMaterialRepository;
+import com.factory.backend.services.IIdentifierGenerationService;
 import com.factory.backend.services.IMaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,10 +23,13 @@ public class MongoMaterialService implements IMaterialService {
 
     private final MongoMaterialMapper materialMapper;
 
+    private final IIdentifierGenerationService identifierGenerationService;
+
     @Autowired
-    public MongoMaterialService(MongoMaterialRepository materialRepository, MongoMaterialMapper materialMapper) {
+    public MongoMaterialService(MongoMaterialRepository materialRepository, MongoMaterialMapper materialMapper, IIdentifierGenerationService identifierGenerationService) {
         this.materialRepository = materialRepository;
         this.materialMapper = materialMapper;
+        this.identifierGenerationService = identifierGenerationService;
     }
 
     @Override
@@ -45,9 +50,10 @@ public class MongoMaterialService implements IMaterialService {
 
     @Override
     public MaterialDTO saveMaterial(MaterialAddingDTO materialDTO) {
-        return materialMapper.entityToDto(
-                materialRepository.save(materialMapper.addingDtoToEntity(materialDTO))
-        );
+        MongoMaterial mongoMaterial = materialMapper.addingDtoToEntity(materialDTO);
+        mongoMaterial.setId(identifierGenerationService.generateMaterialIdentifier());
+
+        return materialMapper.entityToDto(materialRepository.save(mongoMaterial));
     }
 
     @Override

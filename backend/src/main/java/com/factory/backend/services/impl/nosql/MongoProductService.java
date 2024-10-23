@@ -7,6 +7,7 @@ import com.factory.backend.entities.nosql.MongoProduct;
 import com.factory.backend.exceptions.ResourceNotFoundException;
 import com.factory.backend.repository.nosql.MongoCategoryRepository;
 import com.factory.backend.repository.nosql.MongoProductRepository;
+import com.factory.backend.services.IIdentifierGenerationService;
 import com.factory.backend.services.IProductService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,18 @@ public class MongoProductService implements IProductService {
 
     private final MongoProductMapper productMapper;
 
+    private final IIdentifierGenerationService identifierGenerationService;
+
     @Autowired
     public MongoProductService(
             MongoProductRepository productRepository,
             MongoCategoryRepository categoryRepository,
-            MongoProductMapper productMapper
+            MongoProductMapper productMapper, IIdentifierGenerationService identifierGenerationService
     ) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productMapper = productMapper;
+        this.identifierGenerationService = identifierGenerationService;
     }
 
     @Override
@@ -102,6 +106,7 @@ public class MongoProductService implements IProductService {
             throw new ResourceNotFoundException("category with id=%s not found", productDTO.getCategoryId());
 
         MongoProduct product = productMapper.addingDtoToEntity(productDTO);
+        product.setId(identifierGenerationService.generateProductIdentifier());
 
         return product;
     }
