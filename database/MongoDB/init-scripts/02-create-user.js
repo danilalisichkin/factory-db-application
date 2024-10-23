@@ -1,4 +1,4 @@
-use factory_db;
+db = db.getSiblingDB('admin');
 
 db.createUser({
     user: "factory_user",
