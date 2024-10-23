@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface MongoClientRepository extends MongoRepository<MongoClient, ObjectId> {
     @Query("{ 'phone_number': ?0 }")
     Optional<MongoClient> findById(String id);
+
+    @Query("{ 'phone_number': ?0 }")
+    boolean existsById(String id);
 }

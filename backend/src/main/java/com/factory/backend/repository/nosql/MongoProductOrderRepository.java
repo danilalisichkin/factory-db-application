@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface MongoProductOrderRepository extends MongoRepository<MongoProductOrder, ObjectId> {
     Optional<MongoProductOrder> findById(String id);
+
+    boolean existsById(String id);
 }
