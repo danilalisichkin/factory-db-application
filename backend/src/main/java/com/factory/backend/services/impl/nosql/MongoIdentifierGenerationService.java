@@ -6,11 +6,8 @@ import com.factory.backend.repository.nosql.MongoIdentifierRepository;
 import com.factory.backend.services.IIdentifierGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpServerErrorException;
 
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MongoIdentifierGenerationService implements IIdentifierGenerationService {
