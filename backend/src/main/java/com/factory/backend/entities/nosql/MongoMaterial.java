@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collation = "materials")
+@Document("materials")
 public class MongoMaterial {
     @Id
     private Integer id;

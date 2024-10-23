@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collation = "clients")
+@Document("clients")
 public class MongoClient {
     @Id
     @Field(name = "phone_number")
