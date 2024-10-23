@@ -22,9 +22,6 @@ public class Identifier {
     private Integer categoryId;
 
     @Indexed(unique=true)
-    private Integer clientId;
-
-    @Indexed(unique=true)
     private Integer materialId;
 
     @Indexed(unique=true)
