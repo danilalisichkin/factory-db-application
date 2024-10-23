@@ -10,4 +10,6 @@ public interface MongoProductOrderRepository extends MongoRepository<MongoProduc
     Optional<MongoProductOrder> findById(String id);
 
     boolean existsById(String id);
+
+    void deleteById(String id);
 }

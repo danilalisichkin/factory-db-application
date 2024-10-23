@@ -15,4 +15,7 @@ public interface MongoClientRepository extends MongoRepository<MongoClient, Obje
 
     @Query("{ 'phone_number': ?0 }")
     boolean existsById(String id);
+
+    @Query("{ 'phone_number': ?0 }")
+    void deleteById(String id);
 }

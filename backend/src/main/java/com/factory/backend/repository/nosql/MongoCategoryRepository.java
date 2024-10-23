@@ -12,4 +12,6 @@ public interface MongoCategoryRepository extends MongoRepository<MongoCategory, 
     Optional<MongoCategory> findById(Integer id);
 
     boolean existsById(Integer id);
+
+    void deleteById(Integer id);
 }

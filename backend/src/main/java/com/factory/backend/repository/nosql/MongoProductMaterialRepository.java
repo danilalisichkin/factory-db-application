@@ -10,4 +10,6 @@ public interface MongoProductMaterialRepository extends MongoRepository<MongoPro
     Optional<MongoProductMaterial> findById(String id);
 
     boolean existsById(String id);
+
+    void deleteById(String id);
 }

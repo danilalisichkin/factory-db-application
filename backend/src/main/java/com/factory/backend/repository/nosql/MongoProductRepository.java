@@ -10,4 +10,6 @@ public interface MongoProductRepository extends MongoRepository<MongoProduct, Ob
     Optional<MongoProduct> findById(Integer id);
 
     boolean existsById(Integer id);
+
+    void deleteById(Integer id);
 }
