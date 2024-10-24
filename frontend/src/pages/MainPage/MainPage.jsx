@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import {
   FormControl,
@@ -16,7 +16,7 @@ import DataTable from "../../components/DataTable/DataTable";
 const tables = [
   {
     tableName: "Products",
-    tableApi: "/api/v1/products",
+    tableApi: "api/v1/products",
     tableIdField: "id",
     fieldsForCreate: [
       {
@@ -35,7 +35,7 @@ const tables = [
   },
   {
     tableName: "Categories",
-    tableApi: "/api/v1/categories",
+    tableApi: "api/v1/categories",
     tableIdField: "id",
     fieldsForCreate: [
       {
@@ -50,7 +50,7 @@ const tables = [
   },
   {
     tableName: "Materials",
-    tableApi: "/api/v1/materials",
+    tableApi: "api/v1/materials",
     tableIdField: "id",
     fieldsForCreate: [
       {
@@ -65,7 +65,7 @@ const tables = [
   },
   {
     tableName: "Clients",
-    tableApi: "/api/v1/clients",
+    tableApi: "api/v1/clients",
     tableIdField: "phoneNumber",
     fieldsForCreate: [
       {
@@ -88,7 +88,7 @@ const tables = [
   },
   {
     tableName: "Product materials",
-    tableApi: "/api/v1/product-materials",
+    tableApi: "api/v1/product-materials",
     tableIdField: ["productSku", "materialSku"],
     fieldsForCreate: [
       {
@@ -103,7 +103,7 @@ const tables = [
   },
   {
     tableName: "Product orders",
-    tableApi: "/api/v1/product-orders",
+    tableApi: "api/v1/product-orders",
     tableIdField: ["clientPhoneNumber", "productSku"],
     fieldsForCreate: [
       {
@@ -124,11 +124,12 @@ const tables = [
 
 function MainPage() {
   const [database, setDatabase] = useState('postgres');
+  const [currentTable, setCurrentTable] = useState(tables[0]);
+  
   function handleDataBaseChange(value) {
     setDatabase(value);
   }
 
-  const [currentTable, setCurrentTable] = useState(tables[0]);
   function handleTableChange(value) {
     const selectedTable = tables.find((item) => {
       return item.tableApi === value;
@@ -139,10 +140,14 @@ function MainPage() {
     }
   }
 
+  useEffect(() => {
+    setCurrentTable(tables[0]);
+  }, [database]);
+
   return (
     <div className={styles.pageContainer}>
       <FormControl>
-        <FormLabel id="demo-controlled-radio-buttons-group">Gender</FormLabel>
+        <FormLabel id="demo-controlled-radio-buttons-group">Database</FormLabel>
         <RadioGroup
           aria-labelledby="demo-controlled-radio-buttons-group"
           name="controlled-radio-buttons-group"
@@ -169,7 +174,7 @@ function MainPage() {
           ))}
         </Select>
       </FormControl>
-      <DataTable style={{ marginTop: "40px" }} table={currentTable} apiRoot={'http://localhost:8080/' + database}/>
+      <DataTable key={`${database}-${currentTable.tableApi}`} style={{ marginTop: "40px" }} table={currentTable} apiRoot={`http://localhost:8080/${database}`}/>
     </div>
   );
 }
