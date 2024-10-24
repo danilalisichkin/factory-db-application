@@ -53,7 +53,7 @@ public class MongoProductOrderService implements IProductOrderService {
     @Override
     public ProductOrderDTO getProductOrderById(String clientPhone, Integer productId) {
         return productOrderMapper.entityToDto(
-                productOrderRepository.findById(MongoProductOrder.generateId(clientPhone, productId)).orElseThrow(
+                productOrderRepository.findByModelId(MongoProductOrder.generateId(clientPhone, productId)).orElseThrow(
                         () -> new ResourceNotFoundException("product order with client_phone=%s and product_sku=%s not found", clientPhone, productId)
                 )
         );
@@ -72,7 +72,7 @@ public class MongoProductOrderService implements IProductOrderService {
     @Override
     @Transactional
     public ProductOrderDTO updateProductOrder(ProductOrderDTO productOrderDTO) {
-        if (!productOrderRepository.existsById(MongoProductOrder.generateId(
+        if (!productOrderRepository.existsByModelId(MongoProductOrder.generateId(
                         productOrderDTO.getClientPhoneNumber(),
                         productOrderDTO.getProductSku()
                 )
@@ -85,10 +85,10 @@ public class MongoProductOrderService implements IProductOrderService {
 
     @Override
     public void deleteProductOrderById(String clientPhone, Integer productId) {
-        if (!productOrderRepository.existsById(MongoProductOrder.generateId(clientPhone, productId))) {
+        if (!productOrderRepository.existsByModelId(MongoProductOrder.generateId(clientPhone, productId))) {
             throw new ResourceNotFoundException("product order with client_phone=%s and product_sku=%s not found", clientPhone, productId);
         }
-        productOrderRepository.deleteById(MongoProductOrder.generateId(clientPhone, productId));
+        productOrderRepository.deleteByModelId(MongoProductOrder.generateId(clientPhone, productId));
     }
 
     @Override
@@ -109,9 +109,9 @@ public class MongoProductOrderService implements IProductOrderService {
         if (productSku == null)
             throw new BadRequestException("product sku is required");
 
-        if (!clientRepository.existsById(clientPhone))
+        if (!clientRepository.existsByPhoneNumber(clientPhone))
             throw new ResourceNotFoundException("client with phone=%s not found", clientPhone);
-        if (!productRepository.existsById(productSku))
+        if (!productRepository.existsByModelId(productSku))
             throw new ResourceNotFoundException("product with sku=%s not found", productSku);
 
         MongoProductOrder productOrder = productOrderMapper.dtoToEntity(productOrderDTO);

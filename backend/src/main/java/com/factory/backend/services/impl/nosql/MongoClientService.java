@@ -37,7 +37,7 @@ public class MongoClientService implements IClientService {
     @Override
     public ClientDTO getClientByPhone(String phone) {
         return clientMapper.entityToDto(
-                clientRepository.findById(phone).orElseThrow(
+                clientRepository.findByPhoneNumber(phone).orElseThrow(
                         () -> new ResourceNotFoundException("client with phone=%s not found", phone)
                 )
         );
@@ -52,7 +52,7 @@ public class MongoClientService implements IClientService {
 
     @Override
     public ClientDTO updateClient(ClientDTO clientDTO) {
-        if (!clientRepository.existsById(clientDTO.getPhoneNumber())) {
+        if (!clientRepository.existsByPhoneNumber(clientDTO.getPhoneNumber())) {
             throw new ResourceNotFoundException("client with phone=%s not found", clientDTO.getPhoneNumber());
         }
 
@@ -63,10 +63,10 @@ public class MongoClientService implements IClientService {
 
     @Override
     public void deleteClientByPhone(String phone) {
-        if (!clientRepository.existsById(phone)) {
+        if (!clientRepository.existsByPhoneNumber(phone)) {
             throw new ResourceNotFoundException("client with phone=%s not found", phone);
         }
-        clientRepository.deleteById(phone);
+        clientRepository.deleteByPhoneNumber(phone);
     }
 
     @Override
