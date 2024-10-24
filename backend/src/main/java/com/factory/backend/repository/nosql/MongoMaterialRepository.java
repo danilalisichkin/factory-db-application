@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface MongoMaterialRepository extends MongoRepository<MongoMaterial, ObjectId> {
-    Optional<MongoMaterial> findById(Integer id);
+    Optional<MongoMaterial> findByModelId(Integer id);
 
-    boolean existsById(Integer id);
+    boolean existsByModelId(Integer id);
 
-    void deleteById(Integer id);
+    void deleteByModelId(Integer id);
 }

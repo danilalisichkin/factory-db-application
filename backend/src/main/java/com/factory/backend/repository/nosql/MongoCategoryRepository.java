@@ -9,9 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface MongoCategoryRepository extends MongoRepository<MongoCategory, ObjectId> {
-    Optional<MongoCategory> findById(Integer id);
+    Optional<MongoCategory> findByModelId(Integer id);
 
-    boolean existsById(Integer id);
+    boolean existsByModelId(Integer id);
 
-    void deleteById(Integer id);
+    void deleteByModelId(Integer id);
 }
