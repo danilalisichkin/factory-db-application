@@ -51,7 +51,7 @@ public class MongoProductMaterialService implements IProductMaterialService {
     @Override
     public ProductMaterialDTO getProductMaterialById(Integer productId, Integer materialId) {
         return productMaterialMapper.entityToDto(
-                productMaterialRepository.findById(MongoProductMaterial.generateId(productId, materialId)).orElseThrow(
+                productMaterialRepository.findByModelId(MongoProductMaterial.generateId(productId, materialId)).orElseThrow(
                         () -> new ResourceNotFoundException("product material with product_sku=%s and material_sku=%s not found", productId, materialId)
                 )
         );
@@ -64,7 +64,7 @@ public class MongoProductMaterialService implements IProductMaterialService {
 
     @Override
     public ProductMaterialDTO updateProductMaterial(ProductMaterialDTO productMaterialDTO) {
-        if (!productMaterialRepository.existsById(MongoProductMaterial.generateId(
+        if (!productMaterialRepository.existsByModelId(MongoProductMaterial.generateId(
                 productMaterialDTO.getProductSku(),
                 productMaterialDTO.getMaterialSku()
         ))) {
@@ -76,10 +76,10 @@ public class MongoProductMaterialService implements IProductMaterialService {
 
     @Override
     public void deleteProductMaterialById(Integer productId, Integer materialId) {
-        if (!productMaterialRepository.existsById(MongoProductMaterial.generateId(productId, materialId))) {
+        if (!productMaterialRepository.existsByModelId(MongoProductMaterial.generateId(productId, materialId))) {
             throw new ResourceNotFoundException("product material with product_sku=%s and material_sku=%s not found", productId, materialId);
         }
-        productMaterialRepository.deleteById(MongoProductMaterial.generateId(productId, materialId));
+        productMaterialRepository.deleteByModelId(MongoProductMaterial.generateId(productId, materialId));
     }
 
     @Override
@@ -100,9 +100,9 @@ public class MongoProductMaterialService implements IProductMaterialService {
         if (materialSku == null)
             throw new ResourceNotFoundException("material sku is required");
 
-        if (!productRepository.existsById(productSku))
+        if (!productRepository.existsByModelId(productSku))
             throw new ResourceNotFoundException("product with sku=%s not found", productSku);
-        if (!materialRepository.existsById(materialSku))
+        if (!materialRepository.existsByModelId(materialSku))
             throw new ResourceNotFoundException("material with sku=%s not found", materialSku);
 
         MongoProductMaterial productMaterial = productMaterialMapper.dtoToEntity(productMaterialDTO);

@@ -51,7 +51,7 @@ public class MongoProductService implements IProductService {
     @Override
     public ProductDTO getProductById(Integer id) {
         return productMapper.entityToDto(
-                productRepository.findById(id).orElseThrow(
+                productRepository.findByModelId(id).orElseThrow(
                         () -> new ResourceNotFoundException("product with id=%s not found", id)
                 )
         );
@@ -66,7 +66,7 @@ public class MongoProductService implements IProductService {
     @Override
     @Transactional
     public ProductDTO updateProduct(ProductDTO productDTO) {
-        if (!productRepository.existsById(productDTO.getId())) {
+        if (!productRepository.existsByModelId(productDTO.getId())) {
             throw new ResourceNotFoundException("product with id=%s not found", productDTO.getId());
         }
 
@@ -75,10 +75,10 @@ public class MongoProductService implements IProductService {
 
     @Override
     public void deleteProductById(Integer id) {
-        if (!productRepository.existsById(id)) {
+        if (!productRepository.existsByModelId(id)) {
             throw new ResourceNotFoundException("product with id=%s not found", id);
         }
-        productRepository.deleteById(id);
+        productRepository.deleteByModelId(id);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class MongoProductService implements IProductService {
     }
 
     private MongoProduct populateProduct(ProductDTO productDTO) {
-        if (!categoryRepository.existsById(productDTO.getCategoryId()))
+        if (!categoryRepository.existsByModelId(productDTO.getCategoryId()))
             throw new ResourceNotFoundException("category with id=%s not found", productDTO.getCategoryId());
 
         MongoProduct product = productMapper.dtoToEntity(productDTO);
@@ -102,11 +102,11 @@ public class MongoProductService implements IProductService {
     private MongoProduct populateProduct(ProductAddingDTO productDTO) {
         final Integer categoryId = productDTO.getCategoryId();
 
-        if (categoryId != null && !categoryRepository.existsById(productDTO.getCategoryId()))
+        if (categoryId != null && !categoryRepository.existsByModelId(productDTO.getCategoryId()))
             throw new ResourceNotFoundException("category with id=%s not found", productDTO.getCategoryId());
 
         MongoProduct product = productMapper.addingDtoToEntity(productDTO);
-        product.setId(identifierGenerationService.generateProductIdentifier());
+        product.setModelId(identifierGenerationService.generateProductIdentifier());
 
         return product;
     }

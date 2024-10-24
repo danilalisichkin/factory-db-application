@@ -42,7 +42,7 @@ public class MongoMaterialService implements IMaterialService {
     @Override
     public MaterialDTO getMaterialById(Integer id) {
         return materialMapper.entityToDto(
-                materialRepository.findById(id).orElseThrow(
+                materialRepository.findByModelId(id).orElseThrow(
                         () -> new ResourceNotFoundException("material with sku=%s not found", id)
                 )
         );
@@ -51,14 +51,14 @@ public class MongoMaterialService implements IMaterialService {
     @Override
     public MaterialDTO saveMaterial(MaterialAddingDTO materialDTO) {
         MongoMaterial mongoMaterial = materialMapper.addingDtoToEntity(materialDTO);
-        mongoMaterial.setId(identifierGenerationService.generateMaterialIdentifier());
+        mongoMaterial.setModelId(identifierGenerationService.generateMaterialIdentifier());
 
         return materialMapper.entityToDto(materialRepository.save(mongoMaterial));
     }
 
     @Override
     public MaterialDTO updateMaterial(MaterialDTO materialDTO) {
-        if (!materialRepository.existsById(materialDTO.getId())) {
+        if (!materialRepository.existsByModelId(materialDTO.getId())) {
             throw new ResourceNotFoundException("material with sku=%s not found", materialDTO.getId());
         }
 
@@ -69,10 +69,10 @@ public class MongoMaterialService implements IMaterialService {
 
     @Override
     public void deleteMaterialById(Integer id) {
-        if (!materialRepository.existsById(id)) {
+        if (!materialRepository.existsByModelId(id)) {
             throw new ResourceNotFoundException("material with sku=%s not found", id);
         }
-        materialRepository.deleteById(id);
+        materialRepository.deleteByModelId(id);
     }
 
     @Override
