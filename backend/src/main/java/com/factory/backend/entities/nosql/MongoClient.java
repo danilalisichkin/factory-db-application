@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -15,6 +17,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document("clients")
 public class MongoClient {
     @Id
+    private ObjectId id;
+
+    @Indexed(unique=true)
     @Field(name = "phone_number")
     private String phoneNumber;
 
