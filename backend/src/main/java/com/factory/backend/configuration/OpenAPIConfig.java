@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 
 @OpenAPIDefinition(
         info = @Info(
-                title = "Postgres API",
-                description = "API responsible for interaction with PostgreSQL DB", version = "1.0.0",
+                title = "Factory DB API documentation",
+                description = "API responsible for interaction with Mongo DB and PostgreSQL DB", version = "1.0.0",
                 contact = @Contact(
                         name = "Danila Lisichkin",
                         email = "lisichkindanila@gmail.com"
@@ -18,7 +18,15 @@ import org.springframework.context.annotation.Configuration;
         )
 )
 @Configuration
-public class PostgresAPIConfig {
+public class OpenAPIConfig {
+    @Bean
+    public GroupedOpenApi mongoApi() {
+        return GroupedOpenApi.builder()
+                .group("mongo")
+                .pathsToMatch("/mongo/**")
+                .build();
+    }
+
     @Bean
     public GroupedOpenApi postgresApi() {
         return GroupedOpenApi.builder()
