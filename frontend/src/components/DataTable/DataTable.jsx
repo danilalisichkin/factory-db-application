@@ -373,7 +373,7 @@ function DataTable(props) {
   const handleDeleteClick = async (event) => {
     const deleteAll = async () => {
       try {
-        const response = await axios.delete(`${apiUrl}/all`);
+        const response = await axios.delete(`${apiRoot}/${apiUrl}/all`);
         console.log("Server response:", response.data);
       } catch (error) {
         handleError(error);
