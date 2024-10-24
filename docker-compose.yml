@@ -6,27 +6,30 @@ services:
     ports:
       - "5431:5432"
 
-
   mongo:
     build: database/MongoDB
     image: factory-mongo-database:1.0.0
     ports:
       - "27016:27017"
 
-
   backend:
     build: backend
     image: factory-backend:1.0.0
     environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo/factory_db
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/factory_db
       - SPRING_DATASOURCE_USERNAME=factory_user
       - SPRING_DATASOURCE_PASSWORD=admin
+    depends_on:
+      - postgres
+      - mongo
     ports:
       - "8080:8080"
-
 
   frontend:
     build: frontend
     image: factory-frontend:1.0.0
+    depends_on:
+      - backend
     ports:
       - "3000:80"

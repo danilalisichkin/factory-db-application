@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -12,10 +14,15 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collation = "products")
+@Document("products")
 public class MongoProduct {
     @Id
-    private Integer id;
+    @Field(name = "_id")
+    private ObjectId id;
+
+    @Indexed(unique=true)
+    @Field(name = "id")
+    private Integer modelId;
 
     @Field(name = "name")
     private String name;

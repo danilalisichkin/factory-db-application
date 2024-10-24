@@ -1,7 +1,15 @@
 package com.factory.backend.repository.nosql;
 
 import com.factory.backend.entities.nosql.MongoProduct;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface MongoProductRepository extends MongoRepository<MongoProduct, Integer> {
+import java.util.Optional;
+
+public interface MongoProductRepository extends MongoRepository<MongoProduct, ObjectId> {
+    Optional<MongoProduct> findByModelId(Integer id);
+
+    boolean existsByModelId(Integer id);
+
+    void deleteByModelId(Integer id);
 }

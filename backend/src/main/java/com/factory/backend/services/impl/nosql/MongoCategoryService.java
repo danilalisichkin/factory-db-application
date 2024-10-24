@@ -7,6 +7,7 @@ import com.factory.backend.entities.nosql.MongoCategory;
 import com.factory.backend.exceptions.ResourceNotFoundException;
 import com.factory.backend.repository.nosql.MongoCategoryRepository;
 import com.factory.backend.services.ICategoryService;
+import com.factory.backend.services.IIdentifierGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,13 @@ public class MongoCategoryService implements ICategoryService {
 
     private final MongoCategoryMapper categoryMapper;
 
+    private final IIdentifierGenerationService identifierGenerationService;
+
     @Autowired
-    public MongoCategoryService(MongoCategoryRepository categoryRepository, MongoCategoryMapper categoryMapper) {
+    public MongoCategoryService(MongoCategoryRepository categoryRepository, MongoCategoryMapper categoryMapper, IIdentifierGenerationService identifierGenerationService) {
         this.categoryRepository = categoryRepository;
         this.categoryMapper = categoryMapper;
+        this.identifierGenerationService = identifierGenerationService;
     }
 
     @Override
@@ -38,7 +42,7 @@ public class MongoCategoryService implements ICategoryService {
     @Override
     public CategoryDTO getCategoryById(Integer id) {
         return categoryMapper.entityToDto(
-                categoryRepository.findById(id).orElseThrow(
+                categoryRepository.findByModelId(id).orElseThrow(
                         () -> new ResourceNotFoundException("category with id=%s not found", id)
                 )
         );
@@ -46,18 +50,19 @@ public class MongoCategoryService implements ICategoryService {
 
     @Override
     public CategoryDTO saveCategory(CategoryAddingDTO categoryDTO) {
-        if (categoryDTO.getParentId() != null && !categoryRepository.existsById(categoryDTO.getParentId())) {
+        if (categoryDTO.getParentId() != null && !categoryRepository.existsByModelId(categoryDTO.getParentId())) {
             throw new ResourceNotFoundException("parent category with id=%s not found", categoryDTO.getParentId());
         }
 
         MongoCategory category = categoryMapper.addingDtoToEntity(categoryDTO);
+        category.setModelId(identifierGenerationService.generateCategoryIdentifier());
 
         return categoryMapper.entityToDto(categoryRepository.save(category));
     }
 
     @Override
     public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
-        if (!categoryRepository.existsById(categoryDTO.getId())) {
+        if (!categoryRepository.existsByModelId(categoryDTO.getId())) {
             throw new ResourceNotFoundException("category with id=%s not found", categoryDTO.getId());
         }
 
@@ -71,10 +76,10 @@ public class MongoCategoryService implements ICategoryService {
 
     @Override
     public void deleteCategoryById(Integer id) {
-        if (!categoryRepository.existsById(id)) {
+        if (!categoryRepository.existsByModelId(id)) {
             throw new ResourceNotFoundException("category with id=%s not found", id);
         }
-        categoryRepository.deleteById(id);
+        categoryRepository.deleteByModelId(id);
     }
 
     @Override

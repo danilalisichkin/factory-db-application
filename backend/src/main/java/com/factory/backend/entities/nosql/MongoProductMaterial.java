@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -12,10 +14,15 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collation = "product_materials")
+@Document("product_materials")
 public class MongoProductMaterial {
     @Id
-    private String id;
+    @Field(name = "_id")
+    private ObjectId id;
+
+    @Indexed(unique=true)
+    @Field(name = "id")
+    private String modelId;
 
     @Field(name = "product_sku")
     private Integer productSku;
@@ -24,7 +31,7 @@ public class MongoProductMaterial {
     private Integer materialSku;
 
     public void generateId() {
-        this.id = generateId(this.productSku, this.materialSku);
+        this.modelId = generateId(this.productSku, this.materialSku);
     }
 
     public static String generateId(Integer productSku, Integer materialSku) {

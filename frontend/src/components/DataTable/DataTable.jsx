@@ -206,6 +206,7 @@ function DataTable(props) {
     fieldsForCreate,
     tableApi: apiUrl,
   } = table;
+  const apiRoot = props.apiRoot;
 
   const modalRef = React.useRef();
   const modalFormRef = React.useRef();
@@ -257,7 +258,7 @@ function DataTable(props) {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${table.tableApi}/all`);
+        const response = await axios.get(`${apiRoot}/${apiUrl}/all`);
         const data = response.data;
 
         setRows(data);
@@ -372,7 +373,7 @@ function DataTable(props) {
   const handleDeleteClick = async (event) => {
     const deleteAll = async () => {
       try {
-        const response = await axios.delete(`${apiUrl}/all`);
+        const response = await axios.delete(`${apiRoot}/${apiUrl}/all`);
         console.log("Server response:", response.data);
       } catch (error) {
         handleError(error);
@@ -384,8 +385,8 @@ function DataTable(props) {
     const deleteSingle = async (record) => {
       try {
         const url = Array.isArray(idField)
-          ? `${apiUrl}/${record[idField[0]]}/${record[idField[1]]}`
-          : `${apiUrl}/${record[idField]}`;
+          ? `${apiRoot}/${apiUrl}/${record[idField[0]]}/${record[idField[1]]}`
+          : `${apiRoot}/${apiUrl}/${record[idField]}`;
         const response = await axios.delete(url);
         console.log("Server response:", response.data);
       } catch (error) {
@@ -436,13 +437,13 @@ function DataTable(props) {
   const handleEditRecord = (row) => {
     const editRecord = async (record) => {
       try {
-        const response = await axios.put(apiUrl, record);
+        const response = await axios.put(`${apiRoot}/${apiUrl}`, record);
         console.log("Server response:", response.data);
       } catch (error) {
         handleError(error);
         return false;
       }
-      const response = await axios.get(`${table.tableApi}/all`);
+      const response = await axios.get(`${apiRoot}/${apiUrl}/all`);
       const newRows = response.data;
       setRows(newRows);
       setSelected([]);
@@ -488,7 +489,7 @@ function DataTable(props) {
   const handleAddRecord = async (data) => {
     const postRecord = async (data) => {
       try {
-        const response = await axios.post(`${apiUrl}`, data);
+        const response = await axios.post(`${apiRoot}/${apiUrl}`, data);
         console.log("Server response:", response.data);
         return true;
       } catch (error) {
@@ -513,7 +514,7 @@ function DataTable(props) {
     const success = await postRecord(data);
 
     if (success) {
-      const response = await axios.get(`${table.tableApi}/all`);
+      const response = await axios.get(`${apiRoot}/${apiUrl}/all`);
       const newRows = response.data;
       setRows(newRows);
       setSelected([]);
@@ -551,7 +552,6 @@ function DataTable(props) {
       />
       <RecordCreatingForm
         fieldsForCreate={fieldsForCreate}
-        apiUrl={apiUrl}
         onRecordAdded={handleAddRecord}
       />
       <Paper sx={{ width: "100%", mb: 2 }}>

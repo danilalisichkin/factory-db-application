@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/mongo/api/mongo/v1/clients")
+@RequestMapping("/mongo/api/v1/clients")
 @Tag(name = "MongoClientController", description = "Provides CRUD-operations with records in \"clients\" table")
 public class MongoClientApiController extends AbstractClientController {
     @Autowired

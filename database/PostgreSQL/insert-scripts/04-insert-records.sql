@@ -13,11 +13,11 @@ INSERT INTO public.categories (name, parent_id) VALUES
     ('Dining Tables', 8);           --10
 
 INSERT INTO public.products (name, category_id, price) VALUES
-    ('"Royal" Bed', 3, 3200.00),    --1
-    ('"Slavyanka" Bed', 3, 2200.00), --2
-    ('"Feast" Table', 10, 1400.00),  --3
+    ('"Royal" Bed', 3, 3200.00),                 --1
+    ('"Slavyanka" Bed', 3, 2200.00),             --2
+    ('"Feast" Table', 10, 1400.00),              --3
     ('"Two Nightstands Plus" Table', 4, 400.00), --4
-    ('"Glass Cube" Cabinet', 7, 2000.00);  --5
+    ('"Glass Cube" Cabinet', 7, 2000.00);        --5
 
 INSERT INTO public.materials (name, supplier_name) VALUES
     ('Wood - Birch', 'LLC "Lesogryzy"'),               --1
