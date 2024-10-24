@@ -4,7 +4,6 @@ import com.factory.backend.core.dto.product.order.ProductOrderAddingDTO;
 import com.factory.backend.core.dto.product.order.ProductOrderDTO;
 import com.factory.backend.entities.nosql.MongoProductOrder;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface MongoProductOrderMapper {
