@@ -17,10 +17,12 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document("product_orders")
 public class MongoProductOrder {
     @Id
-    private ObjectId _id;
+    @Field(name = "_id")
+    private ObjectId id;
 
     @Indexed(unique=true)
-    private String id;
+    @Field(name = "id")
+    private String modelId;
 
     @Field(name = "client_phone_number")
     private String clientPhoneNumber;
@@ -32,7 +34,7 @@ public class MongoProductOrder {
     private Integer quantity;
 
     public void generateId() {
-        this.id = generateId(this.clientPhoneNumber, this.productSku);
+        this.modelId = generateId(this.clientPhoneNumber, this.productSku);
     }
 
     public static String generateId(String clientPhoneNumber, Integer productSku) {

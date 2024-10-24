@@ -17,10 +17,12 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document("categories")
 public class MongoCategory {
     @Id
-    private ObjectId _id;
+    @Field(name = "_id")
+    private ObjectId id;
 
     @Indexed(unique=true)
-    private Integer id;
+    @Field(name = "id")
+    private Integer modelId;
 
     private String name;
 

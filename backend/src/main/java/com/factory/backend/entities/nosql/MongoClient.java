@@ -17,7 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document("clients")
 public class MongoClient {
     @Id
-    private ObjectId _id;
+    private ObjectId id;
 
     @Indexed(unique=true)
     @Field(name = "phone_number")
