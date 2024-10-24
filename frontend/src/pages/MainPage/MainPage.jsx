@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.css";
-import { FormControl, InputLabel, MenuItem, rgbToHex, Select } from "@mui/material";
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  rgbToHex,
+  Select,
+} from "@mui/material";
 import DataTable from "../../components/DataTable/DataTable";
 
 const tables = [
   {
     tableName: "Products",
-    tableApi: "http://localhost:8080/api/v1/products",
+    tableApi: "api/v1/products",
     tableIdField: "id",
     fieldsForCreate: [
       {
@@ -25,7 +35,7 @@ const tables = [
   },
   {
     tableName: "Categories",
-    tableApi: "http://localhost:8080/api/v1/categories",
+    tableApi: "api/v1/categories",
     tableIdField: "id",
     fieldsForCreate: [
       {
@@ -40,7 +50,7 @@ const tables = [
   },
   {
     tableName: "Materials",
-    tableApi: "http://localhost:8080/api/v1/materials",
+    tableApi: "api/v1/materials",
     tableIdField: "id",
     fieldsForCreate: [
       {
@@ -55,7 +65,7 @@ const tables = [
   },
   {
     tableName: "Clients",
-    tableApi: "http://localhost:8080/api/v1/clients",
+    tableApi: "api/v1/clients",
     tableIdField: "phoneNumber",
     fieldsForCreate: [
       {
@@ -78,7 +88,7 @@ const tables = [
   },
   {
     tableName: "Product materials",
-    tableApi: "http://localhost:8080/api/v1/product-materials",
+    tableApi: "api/v1/product-materials",
     tableIdField: ["productSku", "materialSku"],
     fieldsForCreate: [
       {
@@ -93,7 +103,7 @@ const tables = [
   },
   {
     tableName: "Product orders",
-    tableApi: "http://localhost:8080/api/v1/product-orders",
+    tableApi: "api/v1/product-orders",
     tableIdField: ["clientPhoneNumber", "productSku"],
     fieldsForCreate: [
       {
@@ -113,7 +123,13 @@ const tables = [
 ];
 
 function MainPage() {
+  const [database, setDatabase] = useState('postgres');
   const [currentTable, setCurrentTable] = useState(tables[0]);
+  
+  function handleDataBaseChange(value) {
+    setDatabase(value);
+  }
+
   function handleTableChange(value) {
     const selectedTable = tables.find((item) => {
       return item.tableApi === value;
@@ -124,8 +140,24 @@ function MainPage() {
     }
   }
 
+  useEffect(() => {
+    setCurrentTable(tables[0]);
+  }, [database]);
+
   return (
     <div className={styles.pageContainer}>
+      <FormControl>
+        <FormLabel id="demo-controlled-radio-buttons-group">Database</FormLabel>
+        <RadioGroup
+          aria-labelledby="demo-controlled-radio-buttons-group"
+          name="controlled-radio-buttons-group"
+          value={database}
+          onChange={(event) => handleDataBaseChange(event.target.value)}
+        >
+          <FormControlLabel value="postgres" control={<Radio />} label="Postgres" />
+          <FormControlLabel value="mongo" control={<Radio />} label="Mongo" />
+        </RadioGroup>
+      </FormControl>
       <FormControl>
         <InputLabel id="demo-simple-select-label">Table</InputLabel>
         <Select
@@ -136,14 +168,13 @@ function MainPage() {
           onChange={(event) => handleTableChange(event.target.value)}
         >
           {tables.map((item, index) => (
-            <MenuItem value={item.tableApi} key={index}>{item.tableName}</MenuItem>
+            <MenuItem value={item.tableApi} key={index}>
+              {item.tableName}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
-      <DataTable
-        style={{ marginTop: "40px" }}
-        table={currentTable}
-      />
+      <DataTable key={`${database}-${currentTable.tableApi}`} style={{ marginTop: "40px" }} table={currentTable} apiRoot={`http://localhost:8080/${database}`}/>
     </div>
   );
 }

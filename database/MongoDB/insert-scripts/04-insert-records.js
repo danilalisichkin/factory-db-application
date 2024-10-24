@@ -14,22 +14,22 @@ db.categories.insertMany([
 ]);
 
 db.products.insertMany([
-    { id: 1, name: 'Royal Bed', category_id: 3, price: 3200.00 },
-    { id: 2, name: 'Slavyanka Bed', category_id: 3, price: 2200.00 },
-    { id: 3, name: 'Feast Table', category_id: 10, price: 1400.00 },
-    { id: 4, name: 'Two Nightstands Plus Table', category_id: 4, price: 400.00 },
-    { id: 5, name: 'Glass Cube Cabinet', category_id: 7, price: 2000.00 }
+    { id: 1, name: '\"Royal\" Bed', category_id: 3, price: 3200.00 },
+    { id: 2, name: '\"Slavyanka\" Bed', category_id: 3, price: 2200.00 },
+    { id: 3, name: '\"Feast\" Table', category_id: 10, price: 1400.00 },
+    { id: 4, name: '\"Two Nightstands Plus\" Table', category_id: 4, price: 400.00 },
+    { id: 5, name: '\"Glass Cube\" Cabinet', category_id: 7, price: 2000.00 }
 ]);
 
 db.materials.insertMany([
-    { id: 1, name: 'Wood - Birch', supplier_name: 'LLC "Lesogryzy"' },               // 1
-    { id: 2, name: 'Wood - Oak', supplier_name: 'LLC "Lesogryzy"' },                 // 2
-    { id: 3, name: 'Acrylic Glass', supplier_name: 'OJSC "Glass Factory "Neman""' }, // 3
-    { id: 4, name: 'Fiberboard', supplier_name: 'OJSC "MaterialPlus"' },             // 4
-    { id: 5, name: 'Particle Board', supplier_name: 'OJSC "MaterialPlus"' },         // 5
-    { id: 6, name: 'Gold', supplier_name: 'OJSC "BelJewelryTrade"' },                // 6
-    { id: 7, name: 'Natural Leather', supplier_name: 'LLC "Wild Hunter"' },          // 7
-    { id: 8, name: 'Textile', supplier_name: 'LLC "Minsk Textile Factory"' }         // 8
+    { id: 1, name: 'Wood - Birch', supplier_name: 'LLC \"Lesogryzy\"' },
+    { id: 2, name: 'Wood - Oak', supplier_name: 'LLC \"Lesogryzy\"' },
+    { id: 3, name: 'Acrylic Glass', supplier_name: 'OJSC \"Glass Factory \"Neman\"\"' },
+    { id: 4, name: 'Fiberboard', supplier_name: 'OJSC \"MaterialPlus\"' },
+    { id: 5, name: 'Particle Board', supplier_name: 'OJSC \"MaterialPlus\"' },
+    { id: 6, name: 'Gold', supplier_name: 'OJSC \"BelJewelryTrade\"' },
+    { id: 7, name: 'Natural Leather', supplier_name: 'LLC \"Wild Hunter\"' },
+    { id: 8, name: 'Textile', supplier_name: 'LLC \"Minsk Textile Factory\"' }
 ]);
 
 db.product_materials.insertMany([
@@ -50,9 +50,9 @@ db.product_materials.insertMany([
 ]);
 
 db.clients.insertMany([
-    { phone_number: '375291111111', organization_name: 'OJSC "AMI Furniture"', email: 'ami@gmail.com', legal_address: 'Dzerzhinsk, Lenin St. 12' },
-    { phone_number: '375331223445', organization_name: 'LLC "IT Solutions"', email: 'itsolutions@gmail.com', legal_address: 'Minsk, International St. 14, office 4' },
-    { phone_number: '375441114444', organization_name: 'State Educational Institution "School 15 of Minsk"', email: 'shool15minsk@mail.ru', legal_address: 'Minsk, Kalinin St. 52' }
+    { phone_number: '375291111111', organization_name: 'OJSC \"AMI Furniture\"', email: 'ami@gmail.com', legal_address: 'Dzerzhinsk, Lenin St. 12' },
+    { phone_number: '375331223445', organization_name: 'LLC \"IT Solutions\"', email: 'itsolutions@gmail.com', legal_address: 'Minsk, International St. 14, office 4' },
+    { phone_number: '375441114444', organization_name: 'State Educational Institution \"School 15 of Minsk\"', email: 'shool15minsk@mail.ru', legal_address: 'Minsk, Kalinin St. 52' }
 ]);
 
 db.product_orders.insertMany([
