@@ -4,6 +4,7 @@ import com.factory.backend.core.dto.client.ClientAddingDTO;
 import com.factory.backend.core.dto.client.ClientDTO;
 import com.factory.backend.entities.nosql.MongoClient;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface MongoClientMapper {
