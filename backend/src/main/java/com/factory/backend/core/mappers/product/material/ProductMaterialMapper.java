@@ -2,6 +2,7 @@ package com.factory.backend.core.mappers.product.material;
 
 import com.factory.backend.core.dto.product.material.ProductMaterialAddingDTO;
 import com.factory.backend.core.dto.product.material.ProductMaterialDTO;
+import com.factory.backend.entities.nosql.MongoProductMaterial;
 import com.factory.backend.entities.sql.ProductMaterial;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,5 +20,15 @@ public interface ProductMaterialMapper {
     @Mapping(source = "productSku", target = "productSku.id")
     @Mapping(source = "materialSku", target = "materialSku.id")
     ProductMaterial addingDtoToEntity(ProductMaterialAddingDTO dto);
+
+    default MongoProductMaterial entityToMongo(ProductMaterial entity) {
+        MongoProductMaterial mongoProductMaterial = new MongoProductMaterial();
+
+        mongoProductMaterial.setProductSku(entity.getProductSku().getId());
+        mongoProductMaterial.setMaterialSku(entity.getMaterialSku().getId());
+        mongoProductMaterial.generateId();
+
+        return mongoProductMaterial;
+    }
 }
 
