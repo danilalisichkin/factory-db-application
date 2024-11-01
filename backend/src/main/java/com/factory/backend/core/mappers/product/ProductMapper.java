@@ -2,6 +2,7 @@ package com.factory.backend.core.mappers.product;
 
 import com.factory.backend.core.dto.product.ProductAddingDTO;
 import com.factory.backend.core.dto.product.ProductDTO;
+import com.factory.backend.entities.nosql.MongoProduct;
 import com.factory.backend.entities.sql.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,4 +17,6 @@ public interface ProductMapper {
 
     @Mapping(source = "categoryId", target = "category.id")
     Product addingDtoToEntity(ProductAddingDTO dto);
+
+    MongoProduct entityToMongo(Product entity);
 }
