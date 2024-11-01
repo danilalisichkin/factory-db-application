@@ -58,7 +58,7 @@ public class MongoIdentifierGenerationService implements IIdentifierGenerationSe
     private Identifier getCurrentIdentifiers() {
         List<Identifier> currentIdentifiers = identifierRepository.findAll();
         if (currentIdentifiers.isEmpty()) {
-            Identifier identifier =  Identifier.builder()
+            Identifier identifier = Identifier.builder()
                     .categoryId(1)
                     .productId(1)
                     .materialId(1)
