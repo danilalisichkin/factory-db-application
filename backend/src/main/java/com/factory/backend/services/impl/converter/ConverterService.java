@@ -83,6 +83,7 @@ public class ConverterService implements IConverterService {
             if (productOptional.isPresent() && !EntityComparator.areProductsEqual(product, productOptional.get())) {
                 MongoProduct mongoProduct = productMapper.entityToMongo(product);
                 mongoProduct.setId(productOptional.get().getId());
+                mongoProductRepository.deleteById(mongoProduct.getId());
                 mongoProductRepository.save(mongoProduct);
             } else if (productOptional.isEmpty()) {
                 MongoProduct mongoProduct = productMapper.entityToMongo(product);
@@ -99,6 +100,7 @@ public class ConverterService implements IConverterService {
             if (categoryOptional.isPresent() && !EntityComparator.areCategoriesEqual(category, categoryOptional.get())) {
                 MongoCategory mongoCategory = categoryMapper.entityToMongo(category);
                 mongoCategory.setId(categoryOptional.get().getId());
+                mongoCategoryRepository.deleteById(mongoCategory.getId());
                 mongoCategoryRepository.save(mongoCategory);
             } else if (categoryOptional.isEmpty()) {
                 MongoCategory mongoCategory = categoryMapper.entityToMongo(category);
@@ -115,6 +117,7 @@ public class ConverterService implements IConverterService {
             if (materialOptional.isPresent() && !EntityComparator.areMaterialsEqual(material, materialOptional.get())) {
                 MongoMaterial mongoMaterial = materialMapper.entityToMongo(material);
                 mongoMaterial.setId(materialOptional.get().getId());
+                mongoMaterialRepository.deleteById(mongoMaterial.getId());
                 mongoMaterialRepository.save(mongoMaterial);
             } else if (materialOptional.isEmpty()) {
                 MongoMaterial mongoMaterial = materialMapper.entityToMongo(material);
@@ -131,6 +134,7 @@ public class ConverterService implements IConverterService {
             if (clientOptional.isPresent() && !EntityComparator.areClientsEqual(client, clientOptional.get())) {
                 MongoClient mongoClient = clientMapper.entityToMongo(client);
                 mongoClient.setId(clientOptional.get().getId());
+                mongoClientRepository.deleteById(mongoClient.getId());
                 mongoClientRepository.save(mongoClient);
             } else if (clientOptional.isEmpty()) {
                 MongoClient mongoClient = clientMapper.entityToMongo(client);
@@ -151,6 +155,7 @@ public class ConverterService implements IConverterService {
             if (productOrderOptional.isPresent() && !EntityComparator.areProductOrdersEqual(productOrder, productOrderOptional.get())) {
                 MongoProductOrder mongoProductOrder = productOrderMapper.entityToMongo(productOrder);
                 mongoProductOrder.setId(productOrderOptional.get().getId());
+                mongoProductOrderRepository.deleteById(mongoProductOrder.getId());
                 mongoProductOrderRepository.save(mongoProductOrder);
             } else if (productOrderOptional.isEmpty()) {
                 MongoProductOrder mongoProductOrder = productOrderMapper.entityToMongo(productOrder);
@@ -170,6 +175,7 @@ public class ConverterService implements IConverterService {
             if (productMaterialOptional.isPresent() && !EntityComparator.areProductMaterialsEqual(productMaterial, productMaterialOptional.get())) {
                 MongoProductMaterial mongoProductMaterial = productMaterialMapper.entityToMongo(productMaterial);
                 mongoProductMaterial.setId(productMaterialOptional.get().getId());
+                mongoProductMaterialRepository.deleteById(mongoProductMaterial.getId());
                 mongoProductMaterialRepository.save(mongoProductMaterial);
             } else if (productMaterialOptional.isEmpty()) {
                 MongoProductMaterial mongoProductMaterial = productMaterialMapper.entityToMongo(productMaterial);

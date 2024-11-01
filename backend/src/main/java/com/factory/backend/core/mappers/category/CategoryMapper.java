@@ -20,5 +20,6 @@ public interface CategoryMapper {
 
     @Mapping(source = "id", target = "modelId")
     @Mapping(source = "parent.id", target = "parentId")
+    @Mapping(target = "id", ignore = true)
     MongoCategory entityToMongo(Category entity);
 }
