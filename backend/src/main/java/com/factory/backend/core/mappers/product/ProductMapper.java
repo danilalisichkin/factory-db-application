@@ -22,5 +22,6 @@ public interface ProductMapper {
 
     @Mapping(source = "id", target = "modelId")
     @Mapping(source = "category.id", target = "categoryId")
+    @Mapping(target = "id", ignore = true)
     MongoProduct entityToMongo(Product entity);
 }

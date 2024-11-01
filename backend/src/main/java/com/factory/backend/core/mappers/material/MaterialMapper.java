@@ -16,5 +16,6 @@ public interface MaterialMapper {
     Material addingDtoToEntity(MaterialAddingDTO dto);
 
     @Mapping(source = "id", target = "modelId")
+    @Mapping(target = "id", ignore = true)
     MongoMaterial entityToMongo(Material entity);
 }

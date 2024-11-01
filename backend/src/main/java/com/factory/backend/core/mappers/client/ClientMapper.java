@@ -15,5 +15,6 @@ public interface ClientMapper {
 
     Client addingDtoToEntity(ClientAddingDTO dto);
 
+    @Mapping(target = "id", ignore = true)
     MongoClient entityToMongo(Client entity);
 }
