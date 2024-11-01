@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import {
+  Button,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -123,11 +124,14 @@ const tables = [
 ];
 
 function MainPage() {
-  const [database, setDatabase] = useState('postgres');
+  const [database, setDatabase] = useState("postgres");
   const [currentTable, setCurrentTable] = useState(tables[0]);
-  
+  const [refreshKey, setRefreshKey] = useState(0);
+
   function handleDataBaseChange(value) {
+    let selectedTable = currentTable;
     setDatabase(value);
+    setCurrentTable(selectedTable);
   }
 
   function handleTableChange(value) {
@@ -140,12 +144,25 @@ function MainPage() {
     }
   }
 
+  const useConvertor = async () => {
+    await fetch(`http://localhost:8080/converter/convert`);
+    setRefreshKey((prevKey) => prevKey + 1);
+  };
+
   useEffect(() => {
     setCurrentTable(tables[0]);
   }, [database]);
 
   return (
     <div className={styles.pageContainer}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={useConvertor}
+          style={{ marginTop: "20px",  marginBottom: "20px", width: "fit-content"}}
+        >
+          Convert PostgreSQL to MongoDB
+        </Button>
       <FormControl>
         <FormLabel id="demo-controlled-radio-buttons-group">Database</FormLabel>
         <RadioGroup
@@ -154,7 +171,11 @@ function MainPage() {
           value={database}
           onChange={(event) => handleDataBaseChange(event.target.value)}
         >
-          <FormControlLabel value="postgres" control={<Radio />} label="Postgres" />
+          <FormControlLabel
+            value="postgres"
+            control={<Radio />}
+            label="Postgres"
+          />
           <FormControlLabel value="mongo" control={<Radio />} label="Mongo" />
         </RadioGroup>
       </FormControl>
@@ -174,7 +195,12 @@ function MainPage() {
           ))}
         </Select>
       </FormControl>
-      <DataTable key={`${database}-${currentTable.tableApi}`} style={{ marginTop: "40px" }} table={currentTable} apiRoot={`http://localhost:8080/${database}`}/>
+      <DataTable
+        key={`${database}-${currentTable.tableApi}-${refreshKey}`}
+        style={{ marginTop: "40px" }}
+        table={currentTable}
+        apiRoot={`http://localhost:8080/${database}`}
+      />
     </div>
   );
 }
