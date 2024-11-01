@@ -18,5 +18,7 @@ public interface CategoryMapper {
     @Mapping(source = "parentId", target = "parent.id")
     Category addingDtoToEntity(CategoryAddingDTO dto);
 
+    @Mapping(source = "id", target = "modelId")
+    @Mapping(source = "parent.id", target = "parentId")
     MongoCategory entityToMongo(Category entity);
 }

@@ -21,6 +21,14 @@ public interface ProductMaterialMapper {
     @Mapping(source = "materialSku", target = "materialSku.id")
     ProductMaterial addingDtoToEntity(ProductMaterialAddingDTO dto);
 
-    MongoProductMaterial entityToMongo(ProductMaterial entity);
+    default MongoProductMaterial entityToMongo(ProductMaterial entity) {
+        MongoProductMaterial mongoProductMaterial = new MongoProductMaterial();
+
+        mongoProductMaterial.setProductSku(entity.getProductSku().getId());
+        mongoProductMaterial.setMaterialSku(entity.getMaterialSku().getId());
+        mongoProductMaterial.generateId();
+
+        return mongoProductMaterial;
+    }
 }
 

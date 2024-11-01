@@ -5,6 +5,7 @@ import com.factory.backend.core.dto.material.MaterialDTO;
 import com.factory.backend.entities.nosql.MongoMaterial;
 import com.factory.backend.entities.sql.Material;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface MaterialMapper {
@@ -14,5 +15,6 @@ public interface MaterialMapper {
 
     Material addingDtoToEntity(MaterialAddingDTO dto);
 
+    @Mapping(source = "id", target = "modelId")
     MongoMaterial entityToMongo(Material entity);
 }

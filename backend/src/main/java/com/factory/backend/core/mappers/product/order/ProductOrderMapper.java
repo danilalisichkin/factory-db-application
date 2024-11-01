@@ -2,6 +2,7 @@ package com.factory.backend.core.mappers.product.order;
 
 import com.factory.backend.core.dto.product.order.ProductOrderAddingDTO;
 import com.factory.backend.core.dto.product.order.ProductOrderDTO;
+import com.factory.backend.entities.nosql.MongoProductMaterial;
 import com.factory.backend.entities.nosql.MongoProductOrder;
 import com.factory.backend.entities.sql.ProductOrder;
 import org.mapstruct.Mapper;
@@ -21,5 +22,14 @@ public interface ProductOrderMapper {
     @Mapping(source = "productSku", target = "productSku.id")
     ProductOrder addingDtoToEntity(ProductOrderAddingDTO dto);
 
-    MongoProductOrder entityToMongo(ProductOrder entity);
+    default MongoProductOrder entityToMongo(ProductOrder entity) {
+        MongoProductOrder mongoProductOrder = new MongoProductOrder();
+
+        mongoProductOrder.setProductSku(entity.getProductSku().getId());
+        mongoProductOrder.setClientPhoneNumber(entity.getClientPhoneNumber().getPhoneNumber());
+        mongoProductOrder.setQuantity(entity.getQuantity());
+        mongoProductOrder.generateId();
+
+        return mongoProductOrder;
+    }
 }
